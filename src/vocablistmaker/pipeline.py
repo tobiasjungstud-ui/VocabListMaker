@@ -350,10 +350,11 @@ def generate_tests(
     for warning in workbook.warnings:
         report.add("excel_hinweis", Severity.WARNING, warning, stage="einlesen")
 
-    pool_entries = collect_unit_pool(workbook, unit)
+    pool_entries = collect_unit_pool(workbook, unit, settings.core_sections_only)
     unit_label = workbook.unit_label(unit)
     report.stats["unit"] = unit_label
     report.stats["eintraege_in_unit"] = len(pool_entries)
+    report.stats["abschnitte"] = "nur Hauptteil" if settings.core_sections_only else "Unit inkl. Zusatzteile"
 
     notify(f"{len(pool_entries)} Einträge für {unit_label} werden bewertet …", 0.15)
     context = LevelContext.from_entries(workbook.entries_before(unit))

@@ -83,3 +83,19 @@ def test_markdown_states_clearly_when_nothing_was_invented(workbook) -> None:
     pair = pair_from([("persuade", "überzeugen"), ("rubbish", "Abfall")])
     text = analyse(pair, workbook, 1).to_markdown()
     assert "Keine. Jedes Wort der Liste steht so in der Excel-Datei." in text
+
+
+def test_source_sections_are_listed(workbook) -> None:
+    """Der Bericht muss zeigen, aus welchem Abschnitt ein Wort stammt."""
+    pair = pair_from([("persuade", "überzeugen"), ("car boot sale", "Kofferraumverkauf")])
+    result = analyse(pair, workbook, 1)
+    listed = {w for words in result.sections.values() for w in words}
+    assert {"persuade", "car boot sale"} <= listed
+    assert any("Hauptteil" in section for section in result.sections)
+    assert any("Culture" in section for section in result.sections)
+
+
+def test_markdown_shows_the_sections(workbook) -> None:
+    pair = pair_from([("persuade", "überzeugen"), ("car boot sale", "Kofferraumverkauf")])
+    text = analyse(pair, workbook, 1).to_markdown()
+    assert "Aus welchen Abschnitten die Wörter stammen" in text

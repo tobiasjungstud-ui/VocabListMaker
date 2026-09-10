@@ -15,7 +15,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass, field
 
-from .excel_reader import Workbook
+from .excel_reader import Workbook, is_core_section, strip_page_reference
 from .leveling import LevelContext, is_usable, score_candidate
 from .models import Candidate, TestPair
 from .normalize import headword, normalize_key
@@ -40,6 +40,7 @@ class Provenance:
     unit_label: str = ""
     pool_size: int = 0
     used: list[str] = field(default_factory=list)
+    sections: dict[str, list[str]] = field(default_factory=dict)
     invented: list[tuple[str, str]] = field(default_factory=list)
     readmitted: list[tuple[str, str]] = field(default_factory=list)
     gloss_changed: list[tuple[str, str, str]] = field(default_factory=list)
@@ -56,6 +57,14 @@ class Provenance:
             f"**{len(self.used)}**, weggelassen **{self.left_out_count}**."
         )
         lines.append("")
+
+        if self.sections:
+            lines += ["### Aus welchen Abschnitten die Wörter stammen", ""]
+            for section, words in sorted(
+                self.sections.items(), key=lambda kv: (-len(kv[1]), kv[0])
+            ):
+                lines.append(f"- **{section}** ({len(words)}): {', '.join(words)}")
+            lines.append("")
 
         if self.invented:
             lines += ["### Nicht aus der Excel-Datei (eigene Ergänzungen)", ""]
@@ -108,6 +117,7 @@ def analyse(pair: TestPair, workbook: Workbook, unit: int) -> Provenance:
 
     scored: dict[str, Candidate] = {}
     original_gloss: dict[str, str] = {}
+    section_of: dict[str, str] = {}
     for entry in pool:
         candidate = score_candidate(
             Candidate(
@@ -119,12 +129,16 @@ def analyse(pair: TestPair, workbook: Workbook, unit: int) -> Provenance:
         key = headword(entry.english).lower()
         scored.setdefault(key, candidate)
         original_gloss.setdefault(key, entry.german)
+        section_of.setdefault(key, strip_page_reference(entry.section))
 
     result = Provenance(
         unit_label=workbook.unit_label(unit) if unit is not None else "",
         pool_size=len(pool),
     )
 
+    from collections import defaultdict as _dd
+
+    sections: dict[str, list[str]] = _dd(list)
     used_keys: set[str] = set()
     for item in pair.all_items:
         key = headword(item.english).lower()
@@ -134,7 +148,12 @@ def analyse(pair: TestPair, workbook: Workbook, unit: int) -> Provenance:
         source = scored.get(key)
         if source is None:
             result.invented.append((item.english, item.german))
+            sections["nicht in der Excel-Datei"].append(item.english)
             continue
+        section = section_of.get(key) or "ohne Angabe"
+        if unit is not None and is_core_section(section, unit):
+            section += " (Hauptteil)"
+        sections[section].append(item.english)
         if not is_usable(source):
             result.readmitted.append((item.english, _reason_for(source)))
         before = original_gloss.get(key, "")
@@ -147,4 +166,5 @@ def analyse(pair: TestPair, workbook: Workbook, unit: int) -> Provenance:
             continue
         grouped[_reason_for(candidate)].append(candidate.headword or candidate.english)
     result.left_out = dict(grouped)
+    result.sections = dict(sections)
     return result

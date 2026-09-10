@@ -50,6 +50,13 @@ def build_parser() -> argparse.ArgumentParser:
         help="Abbrechen statt Beispielsätze aus festen Mustern zu erzeugen.",
     )
     parser.add_argument(
+        "--nur-hauptteil", action="store_true",
+        help=(
+            "Nur den Hauptteil einer Unit verwenden, ohne Culture, Songs, "
+            "Project und Curriculum extra."
+        ),
+    )
+    parser.add_argument(
         "--herkunft", type=Path, default=None, metavar="EXCEL",
         help=(
             "Zusammen mit --aus-datei: gegen diese Excel-Datei prüfen, welche "
@@ -78,6 +85,8 @@ def main(argv: list[str] | None = None) -> int:
         settings.seed = args.seed
     if args.keine_mustersaetze:
         settings.allow_template_sentences = False
+    if getattr(args, "nur_hauptteil", False):
+        settings.core_sections_only = True
     if args.export_auswahl:
         # Beim Export interessieren nur die Wörter - Sätze kommen später.
         settings.allow_template_sentences = True

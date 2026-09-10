@@ -93,3 +93,24 @@ def test_missing_header_raises() -> None:
     buffer.seek(0)
     with pytest.raises(ValueError, match="Kopfzeile"):
         read_workbook(buffer)
+
+
+def test_core_section_recognises_the_main_block() -> None:
+    from vocablistmaker.excel_reader import is_core_section
+
+    assert is_core_section("Unit 7, p.80", 7)
+    assert not is_core_section("Culture 7", 7)
+    assert not is_core_section("Songs 7, p.119", 7)
+    assert not is_core_section("Curriculum extra 7", 7)
+    assert not is_core_section("Extra Listening and Speaking Unit 7", 7)
+
+
+def test_core_only_pool_is_smaller(wordlist) -> None:
+    from vocablistmaker.excel_reader import collect_unit_pool
+
+    book = read_workbook(wordlist)
+    full = collect_unit_pool(book, 1)
+    core = collect_unit_pool(book, 1, core_only=True)
+    assert len(core) < len(full)
+    assert all("Unit 1" in e.section for e in core)
+    assert "car boot sale" not in {e.english for e in core}

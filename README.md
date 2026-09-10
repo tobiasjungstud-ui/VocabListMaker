@@ -17,7 +17,7 @@ Der Arbeitsablauf besteht aus vier Schritten:
 
 | Anforderung | Umsetzung |
 |---|---|
-| Nur Vokabular der gewählten Unit | Doppelte Unit-Erkennung über Blocküberschriften **und** die Spalte `Section`; Seitenangaben wie `Starter Unit, p.4` werden korrekt als Seite und nicht als Unit gelesen. Zusatzbereiche (`Culture 4`, `Curriculum extra 4`, `Project 4`, `Extra Listening and Speaking Unit 4`) zählen zur jeweiligen Unit. |
+| Nur Vokabular der gewählten Unit | Doppelte Unit-Erkennung über Blocküberschriften **und** die Spalte `Section`; Seitenangaben wie `Starter Unit, p.4` werden korrekt als Seite und nicht als Unit gelesen. Zusatzbereiche (`Culture 4`, `Curriculum extra 4`, `Project 4`, `Songs 4`, `Extra Listening and Speaking Unit 4`) zählen zur jeweiligen Unit; `--nur-hauptteil` beschränkt auf den Block `Unit 4`. |
 | Zu einfache Wörter aussortieren | Abgleich mit einem mitgelieferten A1/A2-Grundwortschatz, Häufigkeitsanalyse (Zipf-Wert), Erkennung von Wörtern aus früheren Units sowie von Internationalismen wie `Protein`/`Protein`, die deutschsprachigen Lernenden nichts beibringen. |
 | Ersatzwörter statt Lücken | Fällt zu viel weg, sucht die Anwendung thematisch passende Begriffe auf B1–B2-Niveau, die dieselben Prüfungen durchlaufen wie das Originalmaterial. |
 | Keine Doppelungen | Vier Stufen: identische Stichwörter, Wortfamilien (`recycle`/`recycling`/`recycled`, `pollute`/`pollution`), gleiche deutsche Bedeutung (`convince` und `persuade` sind beide „überzeugen“) und semantische Nähe durch das Sprachmodell. |
@@ -145,6 +145,7 @@ vocablistmaker wordlist.xlsx 4 --report bericht.md --json bericht.json --no-llm
 | `--aus-datei` | Word-Datei aus kuratierter JSON-Datei bauen |
 | `--herkunft` | Abgleich gegen die Excel-Datei: weggelassen, ersetzt, ergänzt |
 | `--keine-mustersaetze` | abbrechen statt Mustersätze zu erzeugen |
+| `--nur-hauptteil` | nur den Block `Unit N`, ohne Culture/Songs/Project/Extra |
 | `-v` | Fortschritt anzeigen |
 
 Der Rückgabewert ist `0`, wenn keine Fehler gefunden wurden, sonst `1` — damit
@@ -224,6 +225,7 @@ Alles lässt sich über Umgebungsvariablen steuern (siehe `.env.example`):
 | `VLM_WORDS_PER_TEST` | `30` | Wörter je Test |
 | `VLM_REPAIR_ROUNDS` | `3` | Reparaturrunden |
 | `VLM_SEED` | `20240607` | Zufallsstartwert |
+| `VLM_CORE_ONLY` | `false` | nur den Hauptteil einer Unit verwenden |
 | `VLM_FONT` | `Century Gothic` | Schriftart der Tabelle |
 | `VLM_FONT_SIZE` | `10` | Schriftgrad der Tabelle in Punkt |
 | `VLM_ROW_HEIGHT` | `340` | Mindesthöhe einer Tabellenzeile in Twips |

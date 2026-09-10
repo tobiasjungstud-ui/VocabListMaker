@@ -26,6 +26,10 @@ werden muss:
 * **Weggelassen** — welche Wörter der Unit nicht in die Tests kamen, gruppiert
   nach Grund (zu einfach, Kognat, Grundwortschatz, früher gelernt, …).
 * **Ersetzt** — welches Wort durch welches ersetzt wurde und warum.
+* **Herkunftsabschnitt** — aus welchem Abschnitt jedes Wort stammt. „Steht in
+  der Excel-Datei“ genügt nicht: Ein Wort aus `Songs 7` oder `Culture 7` ist
+  etwas anderes als eines aus dem Hauptteil `Unit 7`, auch wenn beide zur
+  selben Unit zählen.
 * **Eigene Ergänzungen** — welche Wörter **nicht** in der Excel-Datei stehen.
   Steht keines darin, wird das ausdrücklich gesagt.
 * **Geänderte Übersetzungen** — jede Abweichung von der deutschen Glosse der
@@ -34,6 +38,15 @@ werden muss:
 `vocablistmaker --aus-datei … --herkunft <excel>` erzeugt genau diese
 Aufstellung (`provenance.py`). Die Angaben stammen aus dem Abgleich mit der
 Excel-Datei, nicht aus dem Gedächtnis.
+
+## Umfang einer Unit
+
+Zu einer Unit zählen standardmässig auch `Culture N`, `Curriculum extra N`,
+`Project N`, `Songs N` und `Extra Listening and Speaking Unit N`. Das ist
+nötig: In diesem Lehrmittel liefert **kein** Hauptteil allein 60 brauchbare
+Wörter (Unit 7: 41, Unit 8: 33). `--nur-hauptteil` schränkt auf den Block
+`Unit N` ein — dann müssen Wörter ergänzt werden, und jede Ergänzung ist im
+Herkunftsbericht auszuweisen.
 
 ## Layout
 

@@ -38,6 +38,12 @@ class Settings:
 
     # --- Testaufbau ---
     words_per_test: int = field(default_factory=lambda: _env_int("VLM_WORDS_PER_TEST", 30))
+    #: Nur den Hauptteil einer Unit verwenden (ohne Culture, Songs, Project,
+    #: Curriculum extra). Reicht in diesem Lehrmittel für keine Unit aus, um
+    #: 60 Wörter zusammenzubekommen - es müssen dann Wörter ergänzt werden.
+    core_sections_only: bool = field(
+        default_factory=lambda: _env_bool("VLM_CORE_ONLY", False)
+    )
     max_repair_rounds: int = field(default_factory=lambda: _env_int("VLM_REPAIR_ROUNDS", 3))
 
     # --- Ausgabe ---

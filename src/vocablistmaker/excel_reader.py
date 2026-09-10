@@ -254,14 +254,37 @@ def _parse_rows(
     return book
 
 
-def collect_unit_pool(book: Workbook, unit: int) -> list[VocabEntry]:
-    """Alle Einträge der gewünschten Unit - inklusive Culture/Project/Extra-Teile."""
+_CORE_SECTION = re.compile(r"^\s*(?:unit|einheit)\s*(\d{1,2})\b", re.IGNORECASE)
+
+
+def is_core_section(section: str, unit: int) -> bool:
+    """Stammt der Eintrag aus dem Hauptteil der Unit (nicht aus Culture, Songs …)?"""
+    if unit == 0:
+        return bool(_STARTER.search(strip_page_reference(section)))
+    match = _CORE_SECTION.match(strip_page_reference(section))
+    return bool(match) and int(match.group(1)) == unit
+
+
+def collect_unit_pool(
+    book: Workbook, unit: int, core_only: bool = False
+) -> list[VocabEntry]:
+    """Alle Einträge der gewünschten Unit.
+
+    Standardmässig zählen auch die Zusatzteile derselben Unit dazu
+    (``Culture 7``, ``Curriculum extra 7``, ``Project 7``, ``Songs 7``,
+    ``Extra Listening and Speaking Unit 7``). Mit ``core_only`` bleibt nur der
+    Hauptteil ``Unit 7`` übrig - dann reicht das Material erfahrungsgemäss
+    nicht für 60 Wörter und es müssen Begriffe ergänzt werden.
+    """
     pool = book.unit_entries(unit)
+    if core_only:
+        pool = [e for e in pool if is_core_section(e.section, unit)]
     if not pool:
         available = ", ".join(book.unit_label(u) for u in book.units)
         raise ValueError(
-            f"Für '{book.unit_label(unit)}' wurden keine Vokabeln gefunden. "
-            f"Verfügbar sind: {available}"
+            f"Für '{book.unit_label(unit)}'"
+            f"{' (nur Hauptteil)' if core_only else ''} wurden keine Vokabeln "
+            f"gefunden. Verfügbar sind: {available}"
         )
     return pool
 
