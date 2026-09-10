@@ -1,0 +1,10 @@
+services:
+  vocablistmaker:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      # Ohne Schlüssel läuft die Anwendung im regelbasierten Modus.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      VLM_MODEL: ${VLM_MODEL:-claude-opus-5}
+    restart: unless-stopped

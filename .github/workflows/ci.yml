@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Abhängigkeiten installieren
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+          pip install -e .
+
+      - name: Linting
+        run: ruff check src tests app.py
+
+      - name: Tests
+        run: pytest
+
+      - name: Beispiellauf ohne Sprachmodell
+        run: |
+          python - <<'PY'
+          from io import BytesIO
+          from openpyxl import Workbook
+          from vocablistmaker.cli import main
+          import sys
+          sys.path.insert(0, "tests")
+          from conftest import _build_rows
+
+          book = Workbook()
+          sheet = book.active
+          sheet.title = "Sheet1"
+          sheet.append([None] * 4)
+          sheet.append(["German Wordlist", None, None, None])
+          sheet.append(["Oxford 3000", "English", "Translation", "Section"])
+          for oxford, en, de, section in _build_rows():
+              sheet.append([oxford or None, en or None, de or None, section or None])
+          book.save("ci-wordlist.xlsx")
+          raise SystemExit(main(["ci-wordlist.xlsx", "Unit 1", "--no-llm", "-o", "ci-out.docx"]))
+          PY
