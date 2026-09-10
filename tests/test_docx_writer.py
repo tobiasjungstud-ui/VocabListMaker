@@ -76,18 +76,45 @@ def test_target_word_is_bold_inside_the_sentence(document: Document) -> None:
 
 
 def test_page_and_table_geometry_match_template(pair: TestPair) -> None:
+    """Seitenformat und Spaltenraster sind unverändert die der Vorlage."""
     xml = zipfile.ZipFile(BytesIO(to_bytes(pair))).read("word/document.xml").decode("utf-8")
     assert '<w:pgSz w:w="11906" w:h="16838"/>' in xml
     assert 'w:top="728"' in xml and 'w:left="1417"' in xml
     assert f'<w:tblW w:w="{TABLE_WIDTH}" w:type="dxa"/>' in xml
     assert re.findall(r'<w:gridCol w:w="(\d+)"/>', xml)[:4] == [str(w) for w in COLUMN_WIDTHS]
+
+
+def test_template_row_height_is_still_reachable(pair: TestPair) -> None:
+    settings = Settings(row_height_twips=ROW_HEIGHT, font_size_pt=11.0)
+    xml = (
+        zipfile.ZipFile(BytesIO(to_bytes(pair, settings)))
+        .read("word/document.xml")
+        .decode("utf-8")
+    )
     assert set(re.findall(r'<w:trHeight w:val="(\d+)"', xml)) == {str(ROW_HEIGHT)}
+    assert '<w:sz w:val="22"/>' in xml  # 22 Halbpunkt = 11 pt
 
 
-def test_font_is_century_gothic_at_eleven_point(pair: TestPair) -> None:
+def test_default_font_is_century_gothic_at_ten_point(pair: TestPair) -> None:
+    """10 pt statt 11 pt, damit 30 Einträge auf eine Seite passen."""
     xml = zipfile.ZipFile(BytesIO(to_bytes(pair))).read("word/document.xml").decode("utf-8")
     assert 'w:ascii="Century Gothic"' in xml
-    assert '<w:sz w:val="22"/>' in xml  # 22 Halbpunkt = 11 pt
+    assert '<w:sz w:val="20"/>' in xml  # 20 Halbpunkt = 10 pt
+
+
+def test_page_break_separates_the_two_tests(pair: TestPair) -> None:
+    xml = zipfile.ZipFile(BytesIO(to_bytes(pair))).read("word/document.xml").decode("utf-8")
+    assert '<w:br w:type="page"/>' in xml
+
+
+def test_page_break_can_be_switched_off(pair: TestPair) -> None:
+    settings = Settings(page_break_between_tests=False)
+    xml = (
+        zipfile.ZipFile(BytesIO(to_bytes(pair, settings)))
+        .read("word/document.xml")
+        .decode("utf-8")
+    )
+    assert '<w:br w:type="page"/>' not in xml
 
 
 def test_only_horizontal_borders(pair: TestPair) -> None:

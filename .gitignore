@@ -13,7 +13,6 @@ env/
 .coverage
 htmlcov/
 *.docx
-!assets/*.docx
 ausgabe/
 .DS_Store
 .idea/

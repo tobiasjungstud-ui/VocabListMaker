@@ -1,0 +1,430 @@
+{
+  "schema": 1,
+  "unit": 8,
+  "unit_label": "Unit 8",
+  "hinweis": "Wörter und Beispielsätze kuratiert und geprüft.",
+  "test1": [
+    {
+      "nr": 1,
+      "deutsch": "mündlich",
+      "englisch": "oral",
+      "satz": "Our oral exam lasts fifteen minutes per student.",
+      "form": ""
+    },
+    {
+      "nr": 2,
+      "deutsch": "Bücherwurm",
+      "englisch": "bookworm",
+      "satz": "Even as a child she was already a bookworm.",
+      "form": ""
+    },
+    {
+      "nr": 3,
+      "deutsch": "übersetzen",
+      "englisch": "translate",
+      "satz": "Can you translate this letter into German for me?",
+      "form": ""
+    },
+    {
+      "nr": 4,
+      "deutsch": "pessimistisch",
+      "englisch": "pessimistic",
+      "satz": "Don't be so pessimistic about your chances.",
+      "form": ""
+    },
+    {
+      "nr": 5,
+      "deutsch": "Außerirdische(r)",
+      "englisch": "alien",
+      "satz": "In the film, an alien lands in a quiet village.",
+      "form": ""
+    },
+    {
+      "nr": 6,
+      "deutsch": "Erzähler(in)",
+      "englisch": "narrator",
+      "satz": "The narrator often speaks directly to the reader.",
+      "form": ""
+    },
+    {
+      "nr": 7,
+      "deutsch": "Umlaufbahn",
+      "englisch": "orbit",
+      "satz": "For twelve years the satellite stayed in orbit.",
+      "form": ""
+    },
+    {
+      "nr": 8,
+      "deutsch": "Veröffentlichung",
+      "englisch": "publication",
+      "satz": "The publication of her diary caused a scandal.",
+      "form": ""
+    },
+    {
+      "nr": 9,
+      "deutsch": "Mitgefühl, Sympathie",
+      "englisch": "sympathy",
+      "satz": "She felt great sympathy for the injured driver.",
+      "form": ""
+    },
+    {
+      "nr": 10,
+      "deutsch": "eindringen, überfallen",
+      "englisch": "invade",
+      "satz": "At dawn the army invaded the small island.",
+      "form": ""
+    },
+    {
+      "nr": 11,
+      "deutsch": "wissenschaftliche Forschung",
+      "englisch": "scientific research",
+      "satz": "Scientific research takes years and a lot of money.",
+      "form": ""
+    },
+    {
+      "nr": 12,
+      "deutsch": "Feind(in)",
+      "englisch": "enemy",
+      "satz": "For generations these two families were enemies.",
+      "form": ""
+    },
+    {
+      "nr": 13,
+      "deutsch": "Rektor(in)",
+      "englisch": "principal",
+      "satz": "The principal spoke to the whole school on Monday.",
+      "form": ""
+    },
+    {
+      "nr": 14,
+      "deutsch": "Ersatz-, Aushilfs-",
+      "englisch": "substitute",
+      "satz": "We had a substitute teacher for three weeks.",
+      "form": ""
+    },
+    {
+      "nr": 15,
+      "deutsch": "unterhaltsam",
+      "englisch": "entertaining",
+      "satz": "I found the film long but surprisingly entertaining.",
+      "form": ""
+    },
+    {
+      "nr": 16,
+      "deutsch": "Prinzessin",
+      "englisch": "princess",
+      "satz": "In this story the princess refuses to be rescued.",
+      "form": ""
+    },
+    {
+      "nr": 17,
+      "deutsch": "Privatdetektiv(in)",
+      "englisch": "private detective",
+      "satz": "Her father hired a private detective to find her.",
+      "form": ""
+    },
+    {
+      "nr": 18,
+      "deutsch": "klassisch",
+      "englisch": "classic",
+      "satz": "This novel has become a classic of the genre.",
+      "form": ""
+    },
+    {
+      "nr": 19,
+      "deutsch": "schrecklich",
+      "englisch": "terrible",
+      "satz": "We had absolutely terrible weather on our holiday.",
+      "form": ""
+    },
+    {
+      "nr": 20,
+      "deutsch": "Klatsch",
+      "englisch": "gossip",
+      "satz": "Most of what he told me was just gossip.",
+      "form": ""
+    },
+    {
+      "nr": 21,
+      "deutsch": "Lebenszeit, ganzes Leben",
+      "englisch": "lifetime",
+      "satz": "She wrote only three novels in her lifetime.",
+      "form": ""
+    },
+    {
+      "nr": 22,
+      "deutsch": "Zuschauer(in)",
+      "englisch": "viewer",
+      "satz": "Millions of viewers watched the final episode.",
+      "form": ""
+    },
+    {
+      "nr": 23,
+      "deutsch": "Teilnehmer(in), Wettkämpfer(in)",
+      "englisch": "contestant",
+      "satz": "Two hundred contestants applied for the show.",
+      "form": ""
+    },
+    {
+      "nr": 24,
+      "deutsch": "anpassen, bearbeiten",
+      "englisch": "adapt",
+      "satz": "The play was adapted for a younger audience.",
+      "form": ""
+    },
+    {
+      "nr": 25,
+      "deutsch": "essbar",
+      "englisch": "edible",
+      "satz": "Not every mushroom in this forest is edible.",
+      "form": ""
+    },
+    {
+      "nr": 26,
+      "deutsch": "anzeigen, zur Schau stellen",
+      "englisch": "display",
+      "satz": "All the winning photos are displayed in the hall.",
+      "form": ""
+    },
+    {
+      "nr": 27,
+      "deutsch": "Abenteuer",
+      "englisch": "adventure",
+      "satz": "Climbing that mountain was quite an adventure.",
+      "form": ""
+    },
+    {
+      "nr": 28,
+      "deutsch": "Angst, Angstzustand",
+      "englisch": "anxiety",
+      "satz": "Her anxiety about the flight kept her awake.",
+      "form": ""
+    },
+    {
+      "nr": 29,
+      "deutsch": "Komödie",
+      "englisch": "comedy",
+      "satz": "We watched a light comedy on Saturday evening.",
+      "form": ""
+    },
+    {
+      "nr": 30,
+      "deutsch": "Mischung",
+      "englisch": "mixture",
+      "satz": "The room was a mixture of old and modern furniture.",
+      "form": ""
+    }
+  ],
+  "test2": [
+    {
+      "nr": 1,
+      "deutsch": "romantisch",
+      "englisch": "romantic",
+      "satz": "He planned a romantic dinner for their anniversary.",
+      "form": ""
+    },
+    {
+      "nr": 2,
+      "deutsch": "geeignet",
+      "englisch": "suitable",
+      "satz": "This film is not suitable for younger children.",
+      "form": ""
+    },
+    {
+      "nr": 3,
+      "deutsch": "Erzählkunst",
+      "englisch": "storytelling",
+      "satz": "Her storytelling keeps the whole class quiet.",
+      "form": ""
+    },
+    {
+      "nr": 4,
+      "deutsch": "roboterhaft",
+      "englisch": "robotic",
+      "satz": "His movements on stage looked stiff and robotic.",
+      "form": ""
+    },
+    {
+      "nr": 5,
+      "deutsch": "Bakterien",
+      "englisch": "bacteria",
+      "satz": "Hot water kills most bacteria on the surface.",
+      "form": ""
+    },
+    {
+      "nr": 6,
+      "deutsch": "Hinterlassenschaft, Erbe",
+      "englisch": "legacy",
+      "satz": "Her books are the legacy she left to her readers.",
+      "form": ""
+    },
+    {
+      "nr": 7,
+      "deutsch": "Notwendigkeit",
+      "englisch": "necessity",
+      "satz": "For many people, a car is a necessity, not a luxury.",
+      "form": ""
+    },
+    {
+      "nr": 8,
+      "deutsch": "Nobelpreis",
+      "englisch": "Nobel Prize",
+      "satz": "She won the Nobel Prize for literature in 1993.",
+      "form": ""
+    },
+    {
+      "nr": 9,
+      "deutsch": "Handlung",
+      "englisch": "plot",
+      "satz": "I could not follow the plot of that film at all.",
+      "form": ""
+    },
+    {
+      "nr": 10,
+      "deutsch": "Sonde",
+      "englisch": "probe",
+      "satz": "The probe sent back pictures of the red planet.",
+      "form": ""
+    },
+    {
+      "nr": 11,
+      "deutsch": "fliehen",
+      "englisch": "escape",
+      "satz": "The prisoners escaped through a narrow tunnel.",
+      "form": ""
+    },
+    {
+      "nr": 12,
+      "deutsch": "verwirrend",
+      "englisch": "confusing",
+      "satz": "I found the instructions long and rather confusing.",
+      "form": ""
+    },
+    {
+      "nr": 13,
+      "deutsch": "Superheld(in)",
+      "englisch": "superhero",
+      "satz": "Every superhero in that series wears a mask.",
+      "form": ""
+    },
+    {
+      "nr": 14,
+      "deutsch": "Faulenzer(in), Drückeberger(in)",
+      "englisch": "slacker",
+      "satz": "His brother has a reputation as a slacker.",
+      "form": ""
+    },
+    {
+      "nr": 15,
+      "deutsch": "Humor",
+      "englisch": "humour",
+      "satz": "His dry humour is not for everyone.",
+      "form": ""
+    },
+    {
+      "nr": 16,
+      "deutsch": "Vorstellungskraft",
+      "englisch": "imagination",
+      "satz": "Writing good stories takes a lot of imagination.",
+      "form": ""
+    },
+    {
+      "nr": 17,
+      "deutsch": "Intelligenz",
+      "englisch": "intelligence",
+      "satz": "Dolphins are known for their high intelligence.",
+      "form": ""
+    },
+    {
+      "nr": 18,
+      "deutsch": "Reise",
+      "englisch": "journey",
+      "satz": "Our journey to the coast took us seven hours.",
+      "form": ""
+    },
+    {
+      "nr": 19,
+      "deutsch": "unglaublich",
+      "englisch": "unbelievable",
+      "satz": "The way that story ends is simply unbelievable.",
+      "form": ""
+    },
+    {
+      "nr": 20,
+      "deutsch": "beeinflussen",
+      "englisch": "influence",
+      "satz": "Her early novels influenced a whole generation.",
+      "form": ""
+    },
+    {
+      "nr": 21,
+      "deutsch": "Science-Fiction",
+      "englisch": "science fiction",
+      "satz": "He reads nothing but science fiction these days.",
+      "form": ""
+    },
+    {
+      "nr": 22,
+      "deutsch": "(belangloses) Allgemeinwissen",
+      "englisch": "trivia",
+      "satz": "Our team lost the trivia quiz by one point.",
+      "form": ""
+    },
+    {
+      "nr": 23,
+      "deutsch": "Comic, Comic-Roman",
+      "englisch": "graphic novel",
+      "satz": "She prefers graphic novels to ordinary books.",
+      "form": ""
+    },
+    {
+      "nr": 24,
+      "deutsch": "Spion(in)",
+      "englisch": "spy",
+      "satz": "The spy passed the documents to a stranger.",
+      "form": ""
+    },
+    {
+      "nr": 25,
+      "deutsch": "wecken, erwachen",
+      "englisch": "awaken",
+      "satz": "A loud bang awakened everyone in the house.",
+      "form": ""
+    },
+    {
+      "nr": 26,
+      "deutsch": "nominieren",
+      "englisch": "nominate",
+      "satz": "They nominated her for best young actress.",
+      "form": ""
+    },
+    {
+      "nr": 27,
+      "deutsch": "Liebesgeschichte, Romanze",
+      "englisch": "romance",
+      "satz": "Their romance began during a summer language course.",
+      "form": ""
+    },
+    {
+      "nr": 28,
+      "deutsch": "sich erholen",
+      "englisch": "recover",
+      "satz": "It took him months to recover after the crash.",
+      "form": ""
+    },
+    {
+      "nr": 29,
+      "deutsch": "an etw. leiden",
+      "englisch": "suffer",
+      "satz": "He suffers from a rare disease of the eyes.",
+      "form": ""
+    },
+    {
+      "nr": 30,
+      "deutsch": "heiraten",
+      "englisch": "marry",
+      "satz": "They married quietly in a small village church.",
+      "form": ""
+    }
+  ]
+}

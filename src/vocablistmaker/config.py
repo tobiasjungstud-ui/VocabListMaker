@@ -45,8 +45,20 @@ class Settings:
     heading_test2: str = field(default_factory=lambda: os.environ.get("VLM_HEADING2", "Test 2"))
     column_titles: tuple[str, str, str, str] = ("Nr.", "Deutsch", "English", "Example sentence")
     font_name: str = field(default_factory=lambda: os.environ.get("VLM_FONT", "Century Gothic"))
-    font_size_pt: float = 11.0
+    # 10 pt statt der 11 pt der Vorlage: Bei 30 Einträgen mit zweizeiligen
+    # Beispielsätzen liefe eine Liste bei 11 pt auf eine zweite Seite.
+    font_size_pt: float = field(default_factory=lambda: float(os.environ.get("VLM_FONT_SIZE", 10)))
+    row_height_twips: int = field(default_factory=lambda: _env_int("VLM_ROW_HEIGHT", 340))
     bold_target_word: bool = field(default_factory=lambda: _env_bool("VLM_BOLD_TARGET", True))
+    page_break_between_tests: bool = field(
+        default_factory=lambda: _env_bool("VLM_PAGE_BREAK", True)
+    )
+    #: Wenn False, bricht die Pipeline ab, statt Beispielsätze aus festen
+    #: Mustern zu erzeugen. Für kuratierte Inhalte ist das die richtige
+    #: Einstellung: lieber ein klarer Fehler als blasse Füllsätze.
+    allow_template_sentences: bool = field(
+        default_factory=lambda: _env_bool("VLM_ALLOW_TEMPLATE_SENTENCES", True)
+    )
 
     # --- Reproduzierbarkeit ---
     seed: int = field(default_factory=lambda: _env_int("VLM_SEED", 20240607))

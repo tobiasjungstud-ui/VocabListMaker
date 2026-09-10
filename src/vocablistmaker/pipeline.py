@@ -157,8 +157,13 @@ def write_sentences(
     unit_label: str,
     batch_size: int,
     report: QualityReport,
+    allow_templates: bool = True,
 ) -> None:
-    """Beispielsätze erzeugen - per Sprachmodell, sonst regelbasiert."""
+    """Beispielsätze erzeugen - per Sprachmodell, sonst regelbasiert.
+
+    Ist ``allow_templates`` False, bricht die Funktion ab, statt Sätze aus
+    festen Mustern zu erzeugen.
+    """
     pending = [c for c in items if not c.sentence]
     if client.available and pending:
         by_key = {c.headword.lower(): c for c in pending}
@@ -194,6 +199,13 @@ def write_sentences(
             )
 
     if rule_based:
+        if not allow_templates:
+            raise ValueError(
+                f"Für {len(rule_based)} Wörter konnte kein Beispielsatz erzeugt werden "
+                f"({', '.join(rule_based[:6])}{' …' if len(rule_based) > 6 else ''}). "
+                "Mustersätze sind abgeschaltet (allow_template_sentences=False), damit "
+                "keine blassen Füllsätze in den Unterricht gelangen."
+            )
         report.add(
             "satz_regelbasiert",
             Severity.WARNING,
@@ -273,6 +285,7 @@ def repair_sentences(
     items: list[Candidate],
     unit_label: str,
     report: QualityReport,
+    allow_templates: bool = True,
 ) -> int:
     """Erzeugt für beanstandete Sätze einen neuen Versuch."""
     broken = [c for c in items if check_sentence(c)]
@@ -281,7 +294,7 @@ def repair_sentences(
     for candidate in broken:
         candidate.sentence = ""
         candidate.sentence_form = ""
-    write_sentences(client, broken, unit_label, len(broken) or 1, report)
+    write_sentences(client, broken, unit_label, len(broken) or 1, report, allow_templates)
     for candidate in broken:
         ensure_sentence(candidate)
     return len(broken)
@@ -421,7 +434,10 @@ def generate_tests(
     test1, test2 = split_balanced(chosen, settings.words_per_test, seed=settings.seed)
 
     notify("Beispielsätze werden geschrieben …", 0.70)
-    write_sentences(client, test1 + test2, unit_label, settings.batch_size, report)
+    write_sentences(
+        client, test1 + test2, unit_label, settings.batch_size, report,
+        settings.allow_template_sentences,
+    )
 
     if client.available:
         notify("Beispielsätze werden geprüft …", 0.80)
@@ -438,7 +454,9 @@ def generate_tests(
         ]
         if not sentence_errors:
             break
-        repaired = repair_sentences(client, test1 + test2, unit_label, report)
+        repaired = repair_sentences(
+            client, test1 + test2, unit_label, report, settings.allow_template_sentences
+        )
         if not repaired:
             break
 
@@ -452,6 +470,22 @@ def generate_tests(
         test2=[TestItem.from_candidate(i, c) for i, c in enumerate(test2, 1)],
         report=final,
     )
+
+    from .docx_writer import check_page_fit
+
+    for name, items in (("Test 1", pair.test1), ("Test 2", pair.test2)):
+        fit = check_page_fit(items, settings)
+        final.stats["seitenfuellung_test1" if name == "Test 1" else "seitenfuellung_test2"] = round(
+            fit.usage, 3
+        )
+        if not fit.fits:
+            final.add(
+                "seitenueberlauf",
+                Severity.ERROR,
+                f"{name} passt nicht auf eine A4-Seite ({fit.usage:.0%} Füllung). "
+                "Kürzere Beispielsätze oder eine kleinere Schrift schaffen Platz.",
+                stage="layout",
+            )
 
     if client.available:
         notify("Abschliessende Gesamtkontrolle …", 0.95)

@@ -23,7 +23,8 @@ Der Arbeitsablauf besteht aus vier Schritten:
 | Keine Doppelungen | Vier Stufen: identische Stichwörter, Wortfamilien (`recycle`/`recycling`/`recycled`, `pollute`/`pollution`), gleiche deutsche Bedeutung (`convince` und `persuade` sind beide „überzeugen“) und semantische Nähe durch das Sprachmodell. |
 | Test 1 und Test 2 gleich schwer | Verteilung nach Wortart, anschliessend Tauschoptimierung auf gleiche mittlere Schwierigkeit, Streuung, Lernwert und Themenmischung. |
 | Beispielsätze, die nicht die Lösung verraten | Definitionsmuster („A villain **is a** bad person …“), deutsche Wörter im Satz und Paraphrasen werden erkannt und der Satz wird neu erzeugt. |
-| Layout der Vorlage | Seitenränder, Tabellenbreite (9520 dxa), Spaltenbreiten (435 / 2511 / 2024 / 4550), Zeilenhöhe (397), nur waagerechte Linien, Century Gothic 11 pt, fette rechtsbündige Nummerierung und fett gesetztes Zielwort im Beispielsatz. |
+| Layout der Vorlage | Seitenränder, Tabellenbreite (9520 dxa), Spaltenbreiten (435 / 2511 / 2024 / 4550), nur waagerechte Linien, Century Gothic, fette rechtsbündige Nummerierung und fett gesetztes Zielwort im Beispielsatz. |
+| Jede Liste auf einer A4-Seite | Die Höhe wird vor der Ausgabe berechnet. Bei 11 pt liefen 30 Einträge mit zweizeiligen Beispielsätzen auf eine zweite Seite, deshalb sind 10 pt und Zeilenhöhe 340 voreingestellt (Auslastung rund 92 %). Test 2 beginnt immer auf einer neuen Seite. |
 | Qualitätskontrolle vor der Ausgabe | Mehrere Prüfrunden mit automatischer Reparatur und ein abschliessender Gesamtblick auf beide Listen. |
 
 ---
@@ -63,7 +64,34 @@ Einen Schlüssel gibt es unter <https://console.anthropic.com>.
 
 ## Nutzung
 
-### Weboberfläche (der übliche Weg)
+### Arbeitsweise A: Inhalte im Chat mit Claude erstellen (aktuell verwendet)
+
+Für Unterrichtsmaterial ist das der Weg mit der besten Qualität: Die Anwendung
+übernimmt Auswahl, Prüfung und Layout, die Beispielsätze entstehen im Gespräch
+mit Claude und werden dort auch gegengelesen. Es wird kein API-Schlüssel
+benötigt.
+
+```bash
+# 1. Geprüfte Wortauswahl als Gerüst ausgeben
+vocablistmaker wordlist.xlsx "Unit 7" --no-llm --export-auswahl kuratiert/unit_7.json
+
+# 2. Die Felder "satz" im Chat mit Claude ausfüllen lassen
+
+# 3. Word-Datei bauen - alle Prüfungen laufen über die fertigen Inhalte
+vocablistmaker --aus-datei kuratiert/unit_7.json -o Vocabulary_Unit_7.docx
+```
+
+Schritt 3 prüft die von Hand geschriebenen Inhalte genauso streng wie
+automatisch erzeugte: Doppelungen, Niveau, Balance, Zielwort im Satz,
+verratene Lösung – und zusätzlich, ob jede Liste auf eine A4-Seite passt.
+
+Fertige, geprüfte Listen liegen unter `kuratiert/` (aktuell Unit 7 und Unit 8).
+
+> **Mustersätze abschalten:** `--keine-mustersaetze` lässt die Anwendung
+> abbrechen, statt Beispielsätze aus festen Mustern zu erzeugen. So kann kein
+> blasser Füllsatz unbemerkt in den Unterricht gelangen.
+
+### Arbeitsweise B: Weboberfläche (der übliche Weg)
 
 ```bash
 streamlit run app.py
@@ -179,6 +207,10 @@ Alles lässt sich über Umgebungsvariablen steuern (siehe `.env.example`):
 | `VLM_REPAIR_ROUNDS` | `3` | Reparaturrunden |
 | `VLM_SEED` | `20240607` | Zufallsstartwert |
 | `VLM_FONT` | `Century Gothic` | Schriftart der Tabelle |
+| `VLM_FONT_SIZE` | `10` | Schriftgrad der Tabelle in Punkt |
+| `VLM_ROW_HEIGHT` | `340` | Mindesthöhe einer Tabellenzeile in Twips |
+| `VLM_PAGE_BREAK` | `true` | Test 2 auf neuer Seite beginnen |
+| `VLM_ALLOW_TEMPLATE_SENTENCES` | `true` | Mustersätze als Rückfallebene zulassen |
 
 Der A1/A2-Grundwortschatz steht in
 `src/vocablistmaker/data/a1_a2_core.txt` und kann ergänzt werden — ein Wort
@@ -254,11 +286,14 @@ VocabListMaker/
 │   ├── schemas.py                Antwortformate des Sprachmodells
 │   ├── enrich.py                 Ersatzwörter
 │   ├── validation.py             Qualitätskontrolle
+│   ├── layout.py                 Seitenberechnung (passt es auf A4?)
+│   ├── curated.py                Kuratierte Inhalte aus dem Chat
 │   ├── docx_writer.py            Word-Ausgabe im Vorlagenlayout
 │   ├── report.py                 Qualitätsbericht
 │   ├── pipeline.py               Gesamtablauf
 │   ├── cli.py                    Kommandozeile
 │   └── data/                     Grundwortschatz, unzählbare Nomen
+├── kuratiert/                    Geprüfte Wortlisten und Beispielsätze
 └── tests/
 ```
 
@@ -273,8 +308,16 @@ Liste mit passenden Ersatzwörtern auf. Alternativ lässt sich mit
 `VLM_WORDS_PER_TEST` eine kleinere Testgrösse wählen.
 
 **Die Beispielsätze wirken einförmig.**
-Dann lief der regelbasierte Modus. Ein hinterlegter `ANTHROPIC_API_KEY`
-schaltet die Satzerzeugung durch das Sprachmodell frei.
+Dann lief der regelbasierte Modus. Für Unterrichtsmaterial ist er nicht
+gedacht. Es gibt zwei bessere Wege: die Sätze im Chat mit Claude schreiben
+lassen (Arbeitsweise A, ohne Schlüssel) oder einen `ANTHROPIC_API_KEY`
+hinterlegen. Mit `--keine-mustersaetze` bricht die Anwendung ab, statt
+Mustersätze zu erzeugen.
+
+**Passt eine Liste wirklich auf eine Seite?**
+Die Anwendung rechnet die Tabellenhöhe vor der Ausgabe aus und meldet den
+Füllgrad; über 100 % gibt es einen Fehler. Bei 10 pt und Sätzen bis rund
+55 Zeichen liegt die Auslastung bei etwa 92 %.
 
 **Ich möchte ein bestimmtes Wort nie in Tests sehen.**
 Es in `src/vocablistmaker/data/a1_a2_core.txt` eintragen.

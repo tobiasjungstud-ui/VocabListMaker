@@ -34,6 +34,93 @@ _GERMAN_MARKERS = re.compile(
 
 _IRREGULAR_THIRD = {"be": "is", "have": "has", "do": "does", "go": "goes"}
 
+#: Unregelmässige Verben mit ihren Vergangenheitsformen. Ohne diese Tabelle
+#: findet die Fettschrift Formen wie "got" (get) oder "took" (take) nicht.
+_IRREGULAR_FORMS = {
+    "be": ("am", "is", "are", "was", "were", "been", "being"),
+    "become": ("becomes", "became", "becoming"),
+    "begin": ("begins", "began", "begun", "beginning"),
+    "break": ("breaks", "broke", "broken", "breaking"),
+    "bring": ("brings", "brought", "bringing"),
+    "build": ("builds", "built", "building"),
+    "buy": ("buys", "bought", "buying"),
+    "catch": ("catches", "caught", "catching"),
+    "choose": ("chooses", "chose", "chosen", "choosing"),
+    "come": ("comes", "came", "coming"),
+    "cost": ("costs", "costing"),
+    "cut": ("cuts", "cutting"),
+    "do": ("does", "did", "done", "doing"),
+    "draw": ("draws", "drew", "drawn", "drawing"),
+    "drink": ("drinks", "drank", "drunk", "drinking"),
+    "drive": ("drives", "drove", "driven", "driving"),
+    "eat": ("eats", "ate", "eaten", "eating"),
+    "fall": ("falls", "fell", "fallen", "falling"),
+    "feel": ("feels", "felt", "feeling"),
+    "fight": ("fights", "fought", "fighting"),
+    "find": ("finds", "found", "finding"),
+    "fly": ("flies", "flew", "flown", "flying"),
+    "forget": ("forgets", "forgot", "forgotten", "forgetting"),
+    "get": ("gets", "got", "gotten", "getting"),
+    "give": ("gives", "gave", "given", "giving"),
+    "go": ("goes", "went", "gone", "going"),
+    "grow": ("grows", "grew", "grown", "growing"),
+    "have": ("has", "had", "having"),
+    "hear": ("hears", "heard", "hearing"),
+    "hide": ("hides", "hid", "hidden", "hiding"),
+    "hold": ("holds", "held", "holding"),
+    "keep": ("keeps", "kept", "keeping"),
+    "know": ("knows", "knew", "known", "knowing"),
+    "lead": ("leads", "led", "leading"),
+    "leave": ("leaves", "left", "leaving"),
+    "lend": ("lends", "lent", "lending"),
+    "lose": ("loses", "lost", "losing"),
+    "make": ("makes", "made", "making"),
+    "mean": ("means", "meant", "meaning"),
+    "meet": ("meets", "met", "meeting"),
+    "pay": ("pays", "paid", "paying"),
+    "put": ("puts", "putting"),
+    "read": ("reads", "reading"),
+    "ride": ("rides", "rode", "ridden", "riding"),
+    "rise": ("rises", "rose", "risen", "rising"),
+    "run": ("runs", "ran", "running"),
+    "say": ("says", "said", "saying"),
+    "see": ("sees", "saw", "seen", "seeing"),
+    "sell": ("sells", "sold", "selling"),
+    "send": ("sends", "sent", "sending"),
+    "set": ("sets", "setting"),
+    "shoot": ("shoots", "shot", "shooting"),
+    "show": ("shows", "showed", "shown", "showing"),
+    "sing": ("sings", "sang", "sung", "singing"),
+    "sit": ("sits", "sat", "sitting"),
+    "sleep": ("sleeps", "slept", "sleeping"),
+    "speak": ("speaks", "spoke", "spoken", "speaking"),
+    "spend": ("spends", "spent", "spending"),
+    "stand": ("stands", "stood", "standing"),
+    "steal": ("steals", "stole", "stolen", "stealing"),
+    "swim": ("swims", "swam", "swum", "swimming"),
+    "take": ("takes", "took", "taken", "taking"),
+    "teach": ("teaches", "taught", "teaching"),
+    "tell": ("tells", "told", "telling"),
+    "think": ("thinks", "thought", "thinking"),
+    "throw": ("throws", "threw", "thrown", "throwing"),
+    "understand": ("understands", "understood", "understanding"),
+    "wake": ("wakes", "woke", "woken", "waking"),
+    "wear": ("wears", "wore", "worn", "wearing"),
+    "win": ("wins", "won", "winning"),
+    "write": ("writes", "wrote", "written", "writing"),
+}
+
+
+def _inflected_variants(word: str) -> list[str]:
+    """Mögliche Wortformen eines Stichworts - für die Suche im Satz."""
+    w = word.lower()
+    forms: list[str] = []
+    forms.extend(_IRREGULAR_FORMS.get(w, ()))
+    # Konsonant + y -> -ies / -ied (marry/married, enemy/enemies)
+    if len(w) > 2 and w.endswith("y") and w[-2] not in _VOWELS:
+        forms += [w[:-1] + "ies", w[:-1] + "ied", w[:-1] + "ier", w[:-1] + "iest"]
+    return forms
+
 _VOWELS = "aeiou"
 
 _DATA = Path(__file__).parent / "data"
@@ -142,20 +229,29 @@ def find_form_in_sentence(sentence: str, target: str, declared: str = "") -> str
     if m:
         return m.group(0)
 
-    # Mehrwortausdruck mit flektiertem ersten Wort ("takes place")
+    # Mehrwortausdruck mit flektiertem ersten Wort ("takes place", "got rid of")
     words = hw.split()
     if len(words) > 1:
         head, tail = words[0], " ".join(words[1:])
-        m = re.search(
-            rf"\b{re.escape(head)}\w{{0,3}}\s+{re.escape(tail)}\w{{0,3}}\b", sentence, re.I
-        )
-        if m:
-            return m.group(0)
+        heads = [head, *_inflected_variants(head)]
+        for variant in heads:
+            m = re.search(
+                rf"\b{re.escape(variant)}\w{{0,3}}\s+{re.escape(tail)}\w{{0,3}}\b",
+                sentence, re.I,
+            )
+            if m:
+                return m.group(0)
         # Nur das Kopfwort flektiert vorhanden
         m = re.search(rf"\b{re.escape(head)}\w{{0,3}}\b", sentence, re.I)
         if m:
             return m.group(0)
         return ""
+
+    # Unregelmässige Formen und y-Wechsel (got, took, married, enemies)
+    for variant in _inflected_variants(hw):
+        m = re.search(rf"\b{re.escape(variant)}\b", sentence, re.I)
+        if m:
+            return m.group(0)
 
     # Einzelwort mit Endung (played, playing, plays, easier ...)
     stem_ = hw[:-1] if hw.endswith("e") and len(hw) > 3 else hw

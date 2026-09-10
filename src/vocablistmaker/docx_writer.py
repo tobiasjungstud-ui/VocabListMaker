@@ -15,12 +15,13 @@ from typing import IO
 
 from docx import Document
 from docx.enum.table import WD_ALIGN_VERTICAL
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Pt, Twips
 
 from .config import Settings
+from .layout import FitResult, check_fits_page
 from .models import TestItem, TestPair
 
 # --- Masse aus der Vorlage (in Twips bzw. DXA) ---------------------------
@@ -203,17 +204,23 @@ def _set_table_properties(table) -> None:
     table._tbl.insert(1, grid)
 
 
-def _set_row_height(row) -> None:
+def _set_row_height(row, height: int = ROW_HEIGHT) -> None:
     tr_pr = row._tr.get_or_add_trPr()
     for existing in tr_pr.findall(qn("w:trHeight")):
         tr_pr.remove(existing)
-    _set(tr_pr, "w:trHeight", val=ROW_HEIGHT)
+    _set(tr_pr, "w:trHeight", val=height)
 
 
-def _add_heading(document: Document, text: str) -> None:
+def _add_heading(document: Document, text: str, page_break: bool = False):
     paragraph = document.add_paragraph()
+    _prepare_paragraph(paragraph)
+    paragraph.paragraph_format.space_after = Pt(4)
+    run = paragraph.add_run()
+    if page_break:
+        run.add_break(WD_BREAK.PAGE)
     run = paragraph.add_run(text)
     run.font.size = Pt(12)
+    run.font.bold = True
     return paragraph
 
 
@@ -224,7 +231,7 @@ def _add_test_table(document: Document, items: Sequence[TestItem], settings: Set
     _set_table_properties(table)
 
     header = table.rows[0]
-    _set_row_height(header)
+    _set_row_height(header, settings.row_height_twips)
     for index, title in enumerate(settings.column_titles):
         _write_cell(
             header.cells[index],
@@ -238,7 +245,7 @@ def _add_test_table(document: Document, items: Sequence[TestItem], settings: Set
 
     for item in items:
         row = table.add_row()
-        _set_row_height(row)
+        _set_row_height(row, settings.row_height_twips)
         _write_cell(
             row.cells[0], settings, text=str(item.number), bold=True,
             align_right=True, width=COLUMN_WIDTHS[0],
@@ -267,10 +274,30 @@ def build_document(pair: TestPair, settings: Settings | None = None) -> Document
     _add_heading(document, settings.heading_test1)
     _add_test_table(document, pair.test1, settings)
 
-    _add_heading(document, settings.heading_test2)
+    _add_heading(document, settings.heading_test2, settings.page_break_between_tests)
     _add_test_table(document, pair.test2, settings)
 
     return document
+
+
+def _table_rows(items, settings: Settings) -> list[tuple[str, str, str, str]]:
+    rows = [tuple(settings.column_titles)]
+    rows += [(str(i.number), i.german, i.english, i.sentence) for i in items]
+    return rows
+
+
+def check_page_fit(items, settings: Settings | None = None) -> FitResult:
+    """Passt eine Liste auf eine A4-Seite?"""
+    settings = settings or Settings()
+    return check_fits_page(
+        _table_rows(items, settings),
+        column_widths=COLUMN_WIDTHS,
+        font_size_pt=settings.font_size_pt,
+        row_height_twips=settings.row_height_twips,
+        page_height=PAGE_HEIGHT,
+        margin_top=MARGIN_TOP,
+        margin_bottom=MARGIN_BOTTOM,
+    )
 
 
 def write_docx(
