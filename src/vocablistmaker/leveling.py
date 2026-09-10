@@ -63,9 +63,20 @@ def _core_vocabulary() -> frozenset[str]:
     return frozenset(words)
 
 
+#: Abschlag für Mehrwortausdrücke. Die Bedeutung einer Wendung lässt sich
+#: nicht aus ihren Bestandteilen ableiten ("stand up for", "box office"),
+#: deshalb ist sie schwerer als ihr häufigstes Einzelwort vermuten lässt.
+PHRASE_PENALTY = 0.60
+
+
 @functools.lru_cache(maxsize=4096)
 def zipf(word: str) -> float:
-    """Häufigkeit des seltensten Inhaltsworts einer Wendung."""
+    """Häufigkeit des seltensten Inhaltsworts einer Wendung.
+
+    Mehrwortausdrücke erhalten einen Abschlag: Ein Phrasal Verb oder eine
+    feste Wendung ist für Lernende deutlich anspruchsvoller als das häufigste
+    darin vorkommende Wort.
+    """
     try:
         from wordfreq import zipf_frequency
     except ImportError:  # pragma: no cover - wordfreq ist eine Pflichtabhängigkeit
@@ -76,9 +87,10 @@ def zipf(word: str) -> float:
         return 3.8
     scores = [zipf_frequency(t, "en") for t in tokens]
     scores = [s for s in scores if s > 0] or [2.0]
-    # Eine Wendung ist so schwer wie ihr schwierigstes Element, aber
-    # Mehrwortausdrücke sind als Ganzes immer etwas anspruchsvoller.
-    return min(scores)
+    value = min(scores)
+    if len(word.split()) > 1:
+        value -= PHRASE_PENALTY
+    return value
 
 
 def cefr_estimate(z: float) -> str:
@@ -111,8 +123,14 @@ def is_core_vocabulary(word: str) -> bool:
     if hw in core:
         return True
     tokens = hw.split()
-    # Eine Wendung gilt nur dann als trivial, wenn *alle* Bestandteile trivial sind.
-    return bool(tokens) and all(t in core or len(t) <= 2 for t in tokens)
+    if len(tokens) <= 1:
+        return False
+    # Eine Wendung gilt nur dann als trivial, wenn alle Bestandteile trivial
+    # sind *und* die Wendung als Ganzes alltäglich bleibt. Sonst würden feste
+    # Ausdrücke mit unauffälligen Bestandteilen ("box office",
+    # "make a difference") fälschlich als Grundwortschatz gelten.
+    all_trivial = all(t in core or len(t) <= 2 for t in tokens)
+    return all_trivial and zipf(hw) >= ZIPF_TOO_EASY
 
 
 def score_candidate(c: Candidate, ctx: LevelContext | None = None) -> Candidate:

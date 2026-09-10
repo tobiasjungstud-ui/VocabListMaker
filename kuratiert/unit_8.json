@@ -2,429 +2,489 @@
   "schema": 1,
   "unit": 8,
   "unit_label": "Unit 8",
-  "hinweis": "Wörter und Beispielsätze kuratiert und geprüft.",
+  "hinweis": "Nur Hauptteil der Unit; fehlende Wörter im Chat ergänzt.",
   "test1": [
     {
       "nr": 1,
-      "deutsch": "mündlich",
-      "englisch": "oral",
-      "satz": "Our oral exam lasts fifteen minutes per student.",
-      "form": ""
+      "deutsch": "synchronisiert",
+      "englisch": "dubbed",
+      "satz": "In Germany most foreign films are dubbed.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 2,
-      "deutsch": "Bücherwurm",
-      "englisch": "bookworm",
-      "satz": "Even as a child she was already a bookworm.",
-      "form": ""
+      "deutsch": "fesselnd",
+      "englisch": "gripping",
+      "satz": "The first hundred pages are absolutely gripping.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 3,
-      "deutsch": "übersetzen",
-      "englisch": "translate",
-      "satz": "Can you translate this letter into German for me?",
-      "form": ""
+      "deutsch": "herzzerreissend",
+      "englisch": "heartbreaking",
+      "satz": "The final scene is absolutely heartbreaking.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 4,
-      "deutsch": "pessimistisch",
-      "englisch": "pessimistic",
-      "satz": "Don't be so pessimistic about your chances.",
-      "form": ""
+      "deutsch": "Besetzung",
+      "englisch": "cast",
+      "satz": "The whole cast came on stage at the end.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 5,
-      "deutsch": "Außerirdische(r)",
-      "englisch": "alien",
-      "satz": "In the film, an alien lands in a quiet village.",
-      "form": ""
+      "deutsch": "Kritiker(in)",
+      "englisch": "critic",
+      "satz": "Most critics praised her first film.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 6,
-      "deutsch": "Erzähler(in)",
-      "englisch": "narrator",
-      "satz": "The narrator often speaks directly to the reader.",
-      "form": ""
+      "deutsch": "Rückblende",
+      "englisch": "flashback",
+      "satz": "A flashback explains what happened ten years earlier.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 7,
-      "deutsch": "Umlaufbahn",
-      "englisch": "orbit",
-      "satz": "For twelve years the satellite stayed in orbit.",
-      "form": ""
+      "deutsch": "Meisterwerk",
+      "englisch": "masterpiece",
+      "satz": "Many people consider this book a masterpiece.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 8,
-      "deutsch": "Veröffentlichung",
-      "englisch": "publication",
-      "satz": "The publication of her diary caused a scandal.",
-      "form": ""
+      "deutsch": "Filmmusik",
+      "englisch": "soundtrack",
+      "satz": "I bought the soundtrack before seeing the film.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 9,
-      "deutsch": "Mitgefühl, Sympathie",
-      "englisch": "sympathy",
-      "satz": "She felt great sympathy for the injured driver.",
-      "form": ""
+      "deutsch": "Untertitel",
+      "englisch": "subtitles",
+      "satz": "We watched the Spanish film with subtitles.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 10,
-      "deutsch": "eindringen, überfallen",
-      "englisch": "invade",
-      "satz": "At dawn the army invaded the small island.",
-      "form": ""
+      "deutsch": "veröffentlichen",
+      "englisch": "publish",
+      "satz": "They published her diary many years later.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 11,
-      "deutsch": "wissenschaftliche Forschung",
-      "englisch": "scientific research",
-      "satz": "Scientific research takes years and a lot of money.",
-      "form": ""
+      "deutsch": "überraschende Wendung",
+      "englisch": "plot twist",
+      "satz": "Nobody saw that plot twist coming.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 12,
-      "deutsch": "Feind(in)",
-      "englisch": "enemy",
-      "satz": "For generations these two families were enemies.",
-      "form": ""
+      "deutsch": "Genre",
+      "englisch": "genre",
+      "satz": "Crime stories are her favourite genre.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
     },
     {
       "nr": 13,
-      "deutsch": "Rektor(in)",
-      "englisch": "principal",
-      "satz": "The principal spoke to the whole school on Monday.",
-      "form": ""
+      "deutsch": "Vorstellungskraft",
+      "englisch": "imagination",
+      "satz": "Writing good stories takes a lot of imagination.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
     },
     {
       "nr": 14,
-      "deutsch": "Ersatz-, Aushilfs-",
-      "englisch": "substitute",
-      "satz": "We had a substitute teacher for three weeks.",
-      "form": ""
+      "deutsch": "Reise",
+      "englisch": "journey",
+      "satz": "Our journey to the coast took us seven hours.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
     },
     {
       "nr": 15,
-      "deutsch": "unterhaltsam",
-      "englisch": "entertaining",
-      "satz": "I found the film long but surprisingly entertaining.",
-      "form": ""
-    },
-    {
-      "nr": 16,
       "deutsch": "Prinzessin",
       "englisch": "princess",
       "satz": "In this story the princess refuses to be rescued.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
     },
     {
-      "nr": 17,
-      "deutsch": "Privatdetektiv(in)",
-      "englisch": "private detective",
-      "satz": "Her father hired a private detective to find her.",
-      "form": ""
-    },
-    {
-      "nr": 18,
-      "deutsch": "klassisch",
-      "englisch": "classic",
-      "satz": "This novel has become a classic of the genre.",
-      "form": ""
-    },
-    {
-      "nr": 19,
+      "nr": 16,
       "deutsch": "schrecklich",
       "englisch": "terrible",
       "satz": "We had absolutely terrible weather on our holiday.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
     },
     {
-      "nr": 20,
+      "nr": 17,
+      "deutsch": "unglaublich",
+      "englisch": "unbelievable",
+      "satz": "The way that story ends is simply unbelievable.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
+    },
+    {
+      "nr": 18,
+      "deutsch": "Schauspieler",
+      "englisch": "actor",
+      "satz": "The lead actor forgot his lines twice.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
+    },
+    {
+      "nr": 19,
       "deutsch": "Klatsch",
       "englisch": "gossip",
       "satz": "Most of what he told me was just gossip.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
     },
     {
-      "nr": 21,
+      "nr": 20,
       "deutsch": "Lebenszeit, ganzes Leben",
       "englisch": "lifetime",
       "satz": "She wrote only three novels in her lifetime.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
+    },
+    {
+      "nr": 21,
+      "deutsch": "Folge, Episode",
+      "englisch": "episode",
+      "satz": "The last episode left everyone speechless.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.81"
     },
     {
       "nr": 22,
-      "deutsch": "Zuschauer(in)",
-      "englisch": "viewer",
-      "satz": "Millions of viewers watched the final episode.",
-      "form": ""
+      "deutsch": "Auszeichnung",
+      "englisch": "award",
+      "satz": "Her documentary won an award in Berlin.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.82"
     },
     {
       "nr": 23,
       "deutsch": "Teilnehmer(in), Wettkämpfer(in)",
       "englisch": "contestant",
       "satz": "Two hundred contestants applied for the show.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.82"
     },
     {
       "nr": 24,
-      "deutsch": "anpassen, bearbeiten",
-      "englisch": "adapt",
-      "satz": "The play was adapted for a younger audience.",
-      "form": ""
-    },
-    {
-      "nr": 25,
-      "deutsch": "essbar",
-      "englisch": "edible",
-      "satz": "Not every mushroom in this forest is edible.",
-      "form": ""
-    },
-    {
-      "nr": 26,
-      "deutsch": "anzeigen, zur Schau stellen",
-      "englisch": "display",
-      "satz": "All the winning photos are displayed in the hall.",
-      "form": ""
-    },
-    {
-      "nr": 27,
-      "deutsch": "Abenteuer",
-      "englisch": "adventure",
-      "satz": "Climbing that mountain was quite an adventure.",
-      "form": ""
-    },
-    {
-      "nr": 28,
-      "deutsch": "Angst, Angstzustand",
-      "englisch": "anxiety",
-      "satz": "Her anxiety about the flight kept her awake.",
-      "form": ""
-    },
-    {
-      "nr": 29,
-      "deutsch": "Komödie",
-      "englisch": "comedy",
-      "satz": "We watched a light comedy on Saturday evening.",
-      "form": ""
-    },
-    {
-      "nr": 30,
-      "deutsch": "Mischung",
-      "englisch": "mixture",
-      "satz": "The room was a mixture of old and modern furniture.",
-      "form": ""
-    }
-  ],
-  "test2": [
-    {
-      "nr": 1,
-      "deutsch": "romantisch",
-      "englisch": "romantic",
-      "satz": "He planned a romantic dinner for their anniversary.",
-      "form": ""
-    },
-    {
-      "nr": 2,
-      "deutsch": "geeignet",
-      "englisch": "suitable",
-      "satz": "This film is not suitable for younger children.",
-      "form": ""
-    },
-    {
-      "nr": 3,
-      "deutsch": "Erzählkunst",
-      "englisch": "storytelling",
-      "satz": "Her storytelling keeps the whole class quiet.",
-      "form": ""
-    },
-    {
-      "nr": 4,
-      "deutsch": "roboterhaft",
-      "englisch": "robotic",
-      "satz": "His movements on stage looked stiff and robotic.",
-      "form": ""
-    },
-    {
-      "nr": 5,
-      "deutsch": "Bakterien",
-      "englisch": "bacteria",
-      "satz": "Hot water kills most bacteria on the surface.",
-      "form": ""
-    },
-    {
-      "nr": 6,
-      "deutsch": "Hinterlassenschaft, Erbe",
-      "englisch": "legacy",
-      "satz": "Her books are the legacy she left to her readers.",
-      "form": ""
-    },
-    {
-      "nr": 7,
-      "deutsch": "Notwendigkeit",
-      "englisch": "necessity",
-      "satz": "For many people, a car is a necessity, not a luxury.",
-      "form": ""
-    },
-    {
-      "nr": 8,
-      "deutsch": "Nobelpreis",
-      "englisch": "Nobel Prize",
-      "satz": "She won the Nobel Prize for literature in 1993.",
-      "form": ""
-    },
-    {
-      "nr": 9,
-      "deutsch": "Handlung",
-      "englisch": "plot",
-      "satz": "I could not follow the plot of that film at all.",
-      "form": ""
-    },
-    {
-      "nr": 10,
-      "deutsch": "Sonde",
-      "englisch": "probe",
-      "satz": "The probe sent back pictures of the red planet.",
-      "form": ""
-    },
-    {
-      "nr": 11,
-      "deutsch": "fliehen",
-      "englisch": "escape",
-      "satz": "The prisoners escaped through a narrow tunnel.",
-      "form": ""
-    },
-    {
-      "nr": 12,
-      "deutsch": "verwirrend",
-      "englisch": "confusing",
-      "satz": "I found the instructions long and rather confusing.",
-      "form": ""
-    },
-    {
-      "nr": 13,
-      "deutsch": "Superheld(in)",
-      "englisch": "superhero",
-      "satz": "Every superhero in that series wears a mask.",
-      "form": ""
-    },
-    {
-      "nr": 14,
-      "deutsch": "Faulenzer(in), Drückeberger(in)",
-      "englisch": "slacker",
-      "satz": "His brother has a reputation as a slacker.",
-      "form": ""
-    },
-    {
-      "nr": 15,
-      "deutsch": "Humor",
-      "englisch": "humour",
-      "satz": "His dry humour is not for everyone.",
-      "form": ""
-    },
-    {
-      "nr": 16,
-      "deutsch": "Vorstellungskraft",
-      "englisch": "imagination",
-      "satz": "Writing good stories takes a lot of imagination.",
-      "form": ""
-    },
-    {
-      "nr": 17,
-      "deutsch": "Intelligenz",
-      "englisch": "intelligence",
-      "satz": "Dolphins are known for their high intelligence.",
-      "form": ""
-    },
-    {
-      "nr": 18,
-      "deutsch": "Reise",
-      "englisch": "journey",
-      "satz": "Our journey to the coast took us seven hours.",
-      "form": ""
-    },
-    {
-      "nr": 19,
-      "deutsch": "unglaublich",
-      "englisch": "unbelievable",
-      "satz": "The way that story ends is simply unbelievable.",
-      "form": ""
-    },
-    {
-      "nr": 20,
-      "deutsch": "beeinflussen",
-      "englisch": "influence",
-      "satz": "Her early novels influenced a whole generation.",
-      "form": ""
-    },
-    {
-      "nr": 21,
-      "deutsch": "Science-Fiction",
-      "englisch": "science fiction",
-      "satz": "He reads nothing but science fiction these days.",
-      "form": ""
-    },
-    {
-      "nr": 22,
-      "deutsch": "(belangloses) Allgemeinwissen",
-      "englisch": "trivia",
-      "satz": "Our team lost the trivia quiz by one point.",
-      "form": ""
-    },
-    {
-      "nr": 23,
-      "deutsch": "Comic, Comic-Roman",
-      "englisch": "graphic novel",
-      "satz": "She prefers graphic novels to ordinary books.",
-      "form": ""
-    },
-    {
-      "nr": 24,
-      "deutsch": "Spion(in)",
-      "englisch": "spy",
-      "satz": "The spy passed the documents to a stranger.",
-      "form": ""
-    },
-    {
-      "nr": 25,
       "deutsch": "wecken, erwachen",
       "englisch": "awaken",
       "satz": "A loud bang awakened everyone in the house.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.83"
     },
     {
-      "nr": 26,
+      "nr": 25,
       "deutsch": "nominieren",
       "englisch": "nominate",
       "satz": "They nominated her for best young actress.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.83"
+    },
+    {
+      "nr": 26,
+      "deutsch": "Abenteuer",
+      "englisch": "adventure",
+      "satz": "Climbing that mountain was quite an adventure.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.84"
     },
     {
       "nr": 27,
-      "deutsch": "Liebesgeschichte, Romanze",
-      "englisch": "romance",
-      "satz": "Their romance began during a summer language course.",
-      "form": ""
+      "deutsch": "Komödie",
+      "englisch": "comedy",
+      "satz": "We watched a light comedy on Saturday evening.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.85"
     },
     {
       "nr": 28,
-      "deutsch": "sich erholen",
-      "englisch": "recover",
-      "satz": "It took him months to recover after the crash.",
-      "form": ""
+      "deutsch": "Mischung",
+      "englisch": "mixture",
+      "satz": "The room was a mixture of old and modern furniture.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.85"
     },
     {
       "nr": 29,
-      "deutsch": "an etw. leiden",
-      "englisch": "suffer",
-      "satz": "He suffers from a rare disease of the eyes.",
-      "form": ""
+      "deutsch": "Liebesgeschichte, Romanze",
+      "englisch": "romance",
+      "satz": "Their romance began during a summer language course.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.85"
     },
     {
       "nr": 30,
       "deutsch": "heiraten",
       "englisch": "marry",
       "satz": "They married quietly in a small village church.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 8, p.87"
+    }
+  ],
+  "test2": [
+    {
+      "nr": 1,
+      "deutsch": "enttäuschend",
+      "englisch": "disappointing",
+      "satz": "After all that praise, the film was disappointing.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 2,
+      "deutsch": "vorhersehbar",
+      "englisch": "predictable",
+      "satz": "Sadly, the whole story was rather predictable.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 3,
+      "deutsch": "Kasseneinnahmen",
+      "englisch": "box office",
+      "satz": "The film did badly at the box office.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 4,
+      "deutsch": "Kapitel",
+      "englisch": "chapter",
+      "satz": "I fell asleep after the second chapter.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 5,
+      "deutsch": "Ende, Schluss",
+      "englisch": "ending",
+      "satz": "The ending left too many questions open.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 6,
+      "deutsch": "Märchen",
+      "englisch": "fairy tale",
+      "satz": "This film retells an old fairy tale.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 7,
+      "deutsch": "Drehbuch",
+      "englisch": "script",
+      "satz": "She rewrote the script three times.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 8,
+      "deutsch": "Fortsetzung",
+      "englisch": "sequel",
+      "satz": "The sequel was much weaker than the original.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 9,
+      "deutsch": "Schauplatz, Handlungsort",
+      "englisch": "setting",
+      "satz": "The author describes the setting in great detail.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 10,
+      "deutsch": "Spannung",
+      "englisch": "suspense",
+      "satz": "The music builds suspense before every murder.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 11,
+      "deutsch": "Bösewicht",
+      "englisch": "villain",
+      "satz": "The villain is far more interesting than the hero.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 12,
+      "deutsch": "darstellen",
+      "englisch": "portray",
+      "satz": "She portrays a young doctor in the series.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 13,
+      "deutsch": "unterhaltsam",
+      "englisch": "entertaining",
+      "satz": "I found the film long but surprisingly entertaining.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
+    },
+    {
+      "nr": 14,
+      "deutsch": "Humor",
+      "englisch": "humour",
+      "satz": "His dry humour is not for everyone.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
+    },
+    {
+      "nr": 15,
+      "deutsch": "Intelligenz",
+      "englisch": "intelligence",
+      "satz": "Dolphins are known for their high intelligence.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
+    },
+    {
+      "nr": 16,
+      "deutsch": "Privatdetektiv(in)",
+      "englisch": "private detective",
+      "satz": "Her father hired a private detective to find her.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.79"
+    },
+    {
+      "nr": 17,
+      "deutsch": "klassisch",
+      "englisch": "classic",
+      "satz": "This novel has become a classic of the genre.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
+    },
+    {
+      "nr": 18,
+      "deutsch": "Regisseur(in)",
+      "englisch": "director",
+      "satz": "The director asked for one more take.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
+    },
+    {
+      "nr": 19,
+      "deutsch": "Science-Fiction",
+      "englisch": "science fiction",
+      "satz": "He reads nothing but science fiction these days.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
+    },
+    {
+      "nr": 20,
+      "deutsch": "(belangloses) Allgemeinwissen",
+      "englisch": "trivia",
+      "satz": "Our team lost the trivia quiz by one point.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.80"
+    },
+    {
+      "nr": 21,
+      "deutsch": "Zuschauer(in)",
+      "englisch": "viewer",
+      "satz": "Millions of viewers watched the final episode.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.81"
+    },
+    {
+      "nr": 22,
+      "deutsch": "Comic, Comic-Roman",
+      "englisch": "graphic novel",
+      "satz": "She prefers graphic novels to ordinary books.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.82"
+    },
+    {
+      "nr": 23,
+      "deutsch": "Spion(in)",
+      "englisch": "spy",
+      "satz": "The spy passed the documents to a stranger.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.82"
+    },
+    {
+      "nr": 24,
+      "deutsch": "anpassen, bearbeiten",
+      "englisch": "adapt",
+      "satz": "The play was adapted for a younger audience.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.82"
+    },
+    {
+      "nr": 25,
+      "deutsch": "essbar",
+      "englisch": "edible",
+      "satz": "Not every mushroom in this forest is edible.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.83"
+    },
+    {
+      "nr": 26,
+      "deutsch": "anzeigen, zur Schau stellen",
+      "englisch": "display",
+      "satz": "All the winning photos are displayed in the hall.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.83"
+    },
+    {
+      "nr": 27,
+      "deutsch": "Angst, Angstzustand",
+      "englisch": "anxiety",
+      "satz": "Her anxiety about the flight kept her awake.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.85"
+    },
+    {
+      "nr": 28,
+      "deutsch": "Schriftsteller(in), Autor(in)",
+      "englisch": "writer",
+      "satz": "The writer spent five years on this book.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.85"
+    },
+    {
+      "nr": 29,
+      "deutsch": "sich erholen",
+      "englisch": "recover",
+      "satz": "It took him months to recover after the crash.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.85"
+    },
+    {
+      "nr": 30,
+      "deutsch": "an etw. leiden",
+      "englisch": "suffer",
+      "satz": "He suffers from a rare disease of the eyes.",
+      "form": "",
+      "quelle": "Excel Unit 8, p.85"
     }
   ]
 }

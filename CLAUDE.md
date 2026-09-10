@@ -30,8 +30,8 @@ werden muss:
   der Excel-Datei“ genügt nicht: Ein Wort aus `Songs 7` oder `Culture 7` ist
   etwas anderes als eines aus dem Hauptteil `Unit 7`, auch wenn beide zur
   selben Unit zählen.
-* **Eigene Ergänzungen** — welche Wörter **nicht** in der Excel-Datei stehen.
-  Steht keines darin, wird das ausdrücklich gesagt.
+* **Eigene Ergänzungen** — als **eindeutige Tabelle** (Englisch | Deutsch),
+  mit Anteil in Prozent. Steht keines darin, wird das ausdrücklich gesagt.
 * **Geänderte Übersetzungen** — jede Abweichung von der deutschen Glosse der
   Excel-Datei, mit Vorher/Nachher.
 
@@ -39,14 +39,27 @@ werden muss:
 Aufstellung (`provenance.py`). Die Angaben stammen aus dem Abgleich mit der
 Excel-Datei, nicht aus dem Gedächtnis.
 
-## Umfang einer Unit
+## Umfang einer Unit — verbindlich: nur der Hauptteil
 
-Zu einer Unit zählen standardmässig auch `Culture N`, `Curriculum extra N`,
-`Project N`, `Songs N` und `Extra Listening and Speaking Unit N`. Das ist
-nötig: In diesem Lehrmittel liefert **kein** Hauptteil allein 60 brauchbare
-Wörter (Unit 7: 41, Unit 8: 33). `--nur-hauptteil` schränkt auf den Block
-`Unit N` ein — dann müssen Wörter ergänzt werden, und jede Ergänzung ist im
-Herkunftsbericht auszuweisen.
+Es zählt **ausschliesslich der Hauptteil** einer Unit, also der Block
+`Unit N` mit seinem zusammenhängenden Seitenbereich (Unit 7: S. 68–77,
+Unit 8: S. 78–87). `Culture N`, `Curriculum extra N`, `Project N`, `Songs N`
+und `Extra Listening and Speaking Unit N` gehören **nicht** dazu.
+Immer mit `--nur-hauptteil` bzw. `VLM_CORE_ONLY=true` arbeiten.
+
+Der Hauptteil liefert nie 60 brauchbare Wörter (Unit 7: 41, Unit 8: 33).
+Die Lücke wird **im Chat mit selbst erfundenen Wörtern gefüllt**. Diese
+müssen:
+
+* zum Thema der Unit passen (Unit 7: Bürgerrechte und Engagement,
+  Unit 8: Filme und Geschichten),
+* im Englischen wirklich gebräuchlich sein (Zipf etwa 3,0–4,6),
+* für B1.2–B2.1 einen echten Zugewinn für den sprachlichen Ausdruck bieten,
+* mit keinem vorhandenen Wort kollidieren.
+
+**Höchstens 40 % der 60 Wörter dürfen ergänzt sein** (also maximal 24).
+Reicht das nicht, werden zuerst Grenzfälle aus dem Hauptteil wieder
+zugelassen, bevor weiter ergänzt wird.
 
 ## Layout
 

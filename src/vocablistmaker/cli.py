@@ -112,7 +112,7 @@ def main(argv: list[str] | None = None) -> int:
                 return 2
             book = read_workbook(args.herkunft)
             print()
-            print(analyse(pair, book, pair.unit).to_markdown())
+            print(analyse(pair, book, pair.unit, settings.core_sections_only).to_markdown())
         if args.report:
             args.report.write_text(to_markdown(pair), encoding="utf-8")
             print(f"Bericht geschrieben:    {args.report}")

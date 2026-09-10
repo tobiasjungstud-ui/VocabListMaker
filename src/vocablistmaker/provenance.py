@@ -42,6 +42,7 @@ class Provenance:
     used: list[str] = field(default_factory=list)
     sections: dict[str, list[str]] = field(default_factory=dict)
     invented: list[tuple[str, str]] = field(default_factory=list)
+    invented_share: float = 0.0
     readmitted: list[tuple[str, str]] = field(default_factory=list)
     gloss_changed: list[tuple[str, str, str]] = field(default_factory=list)
     left_out: dict[str, list[str]] = field(default_factory=dict)
@@ -67,9 +68,16 @@ class Provenance:
             lines.append("")
 
         if self.invented:
-            lines += ["### Nicht aus der Excel-Datei (eigene Ergänzungen)", ""]
+            share = f"{self.invented_share:.0%}"
+            lines += [
+                f"### Selbst ergänzt, nicht aus der Excel-Datei ({len(self.invented)} von "
+                f"{len(self.used)} = {share})",
+                "",
+                "| Englisch | Deutsch |",
+                "|---|---|",
+            ]
             for english, german in self.invented:
-                lines.append(f"- **{english}** — {german}")
+                lines.append(f"| {english} | {german} |")
         else:
             lines += [
                 "### Nicht aus der Excel-Datei (eigene Ergänzungen)",
@@ -110,9 +118,18 @@ def _reason_for(candidate: Candidate) -> str:
     return "nicht ausgewählt (Platz für höherwertige Wörter)"
 
 
-def analyse(pair: TestPair, workbook: Workbook, unit: int) -> Provenance:
-    """Gleicht eine fertige Liste gegen das Vokabular der Unit ab."""
+def analyse(
+    pair: TestPair, workbook: Workbook, unit: int, core_only: bool = False
+) -> Provenance:
+    """Gleicht eine fertige Liste gegen das Vokabular der Unit ab.
+
+    ``core_only`` vergleicht nur gegen den Hauptteil ``Unit N``. Wurde die
+    Liste so erstellt, ist das der richtige Massstab: Ein Wort aus
+    ``Culture N`` wäre dann ebenfalls eine Ergänzung von aussen.
+    """
     pool = workbook.unit_entries(unit)
+    if core_only:
+        pool = [e for e in pool if is_core_section(e.section, unit)]
     context = LevelContext.from_entries(workbook.entries_before(unit))
 
     scored: dict[str, Candidate] = {}
@@ -132,7 +149,8 @@ def analyse(pair: TestPair, workbook: Workbook, unit: int) -> Provenance:
         section_of.setdefault(key, strip_page_reference(entry.section))
 
     result = Provenance(
-        unit_label=workbook.unit_label(unit) if unit is not None else "",
+        unit_label=(workbook.unit_label(unit) if unit is not None else "")
+        + (" (nur Hauptteil)" if core_only else ""),
         pool_size=len(pool),
     )
 
@@ -167,4 +185,7 @@ def analyse(pair: TestPair, workbook: Workbook, unit: int) -> Provenance:
         grouped[_reason_for(candidate)].append(candidate.headword or candidate.english)
     result.left_out = dict(grouped)
     result.sections = dict(sections)
+    result.invented_share = (
+        len(result.invented) / len(result.used) if result.used else 0.0
+    )
     return result

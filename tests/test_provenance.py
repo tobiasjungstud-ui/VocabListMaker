@@ -74,7 +74,7 @@ def test_identical_translation_is_not_reported(workbook) -> None:
 def test_markdown_names_every_section(workbook) -> None:
     pair = pair_from([("persuade", "überzeugen"), ("flabbergasted", "verblüfft")])
     text = analyse(pair, workbook, 1).to_markdown()
-    assert "Nicht aus der Excel-Datei" in text
+    assert "Selbst ergänzt" in text
     assert "Weggelassen" in text
     assert "flabbergasted" in text
 
@@ -99,3 +99,23 @@ def test_markdown_shows_the_sections(workbook) -> None:
     pair = pair_from([("persuade", "überzeugen"), ("car boot sale", "Kofferraumverkauf")])
     text = analyse(pair, workbook, 1).to_markdown()
     assert "Aus welchen Abschnitten die Wörter stammen" in text
+
+
+def test_invented_share_is_reported(workbook) -> None:
+    pair = pair_from(
+        [("persuade", "überzeugen"), ("rubbish", "Abfall"),
+         ("flabbergasted", "verblüfft"), ("serendipity", "Zufallsfund")]
+    )
+    result = analyse(pair, workbook, 1)
+    assert result.invented_share == pytest.approx(0.5)
+    assert "50%" in result.to_markdown()
+
+
+def test_core_only_treats_culture_words_as_additions(workbook) -> None:
+    """Beim Hauptteil-Massstab zählt ein Culture-Wort als Ergänzung."""
+    pair = pair_from([("persuade", "überzeugen"), ("car boot sale", "Kofferraumverkauf")])
+    full = analyse(pair, workbook, 1, core_only=False)
+    core = analyse(pair, workbook, 1, core_only=True)
+    assert "car boot sale" not in [w for w, _ in full.invented]
+    assert "car boot sale" in [w for w, _ in core.invented]
+    assert "nur Hauptteil" in core.unit_label

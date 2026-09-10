@@ -2,429 +2,489 @@
   "schema": 1,
   "unit": 7,
   "unit_label": "Unit 7",
-  "hinweis": "Wörter und Beispielsätze kuratiert und geprüft.",
+  "hinweis": "Nur Hauptteil der Unit; fehlende Wörter im Chat ergänzt.",
   "test1": [
     {
       "nr": 1,
-      "deutsch": "Beitrag",
-      "englisch": "contribution",
-      "satz": "Everyone made a small contribution to the gift.",
-      "form": ""
+      "deutsch": "engagiert",
+      "englisch": "dedicated",
+      "satz": "He is a dedicated teacher who never gives up.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 2,
-      "deutsch": "Gründer(in)",
-      "englisch": "founder",
-      "satz": "The founder of the company still works there today.",
-      "form": ""
+      "deutsch": "egoistisch",
+      "englisch": "selfish",
+      "satz": "His selfish behaviour annoyed the whole team.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 3,
-      "deutsch": "Selbstvertrauen",
-      "englisch": "self-confidence",
-      "satz": "Speaking in public gave him more self-confidence.",
-      "form": ""
+      "deutsch": "Bewusstsein",
+      "englisch": "awareness",
+      "satz": "Their campaign raised awareness of the problem.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 4,
-      "deutsch": "akkurat, präzise",
-      "englisch": "accurate",
-      "satz": "Her measurements were accurate to the millimetre.",
-      "form": ""
+      "deutsch": "Engagement",
+      "englisch": "commitment",
+      "satz": "Her commitment to the group impressed everyone.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 5,
-      "deutsch": "Bürger(in)",
-      "englisch": "citizen",
-      "satz": "Every citizen has the right to a fair trial.",
-      "form": ""
+      "deutsch": "Spendensammlung",
+      "englisch": "fundraising",
+      "satz": "Our fundraising evening brought in a lot of money.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 6,
-      "deutsch": "Fremde(r), Ausländer(in)",
-      "englisch": "foreigner",
-      "satz": "As a foreigner, he found the local customs strange.",
-      "form": ""
+      "deutsch": "Ungerechtigkeit",
+      "englisch": "injustice",
+      "satz": "She could not accept such an obvious injustice.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 7,
-      "deutsch": "wählen",
-      "englisch": "elect",
-      "satz": "Every four years the members elect a new president.",
-      "form": ""
+      "deutsch": "Armut",
+      "englisch": "poverty",
+      "satz": "Millions of children still grow up in poverty.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 8,
-      "deutsch": "Kämpfer(in), Aktivist(in)",
-      "englisch": "campaigner",
-      "satz": "She is a lifelong campaigner for cleaner rivers.",
-      "form": ""
+      "deutsch": "Vorurteil",
+      "englisch": "prejudice",
+      "satz": "Their prejudice against newcomers slowly disappeared.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 9,
-      "deutsch": "Organisator(in)",
-      "englisch": "organizer",
-      "satz": "Because of the rain, the organizers moved the concert.",
-      "form": ""
+      "deutsch": "Zeuge, Zeugin",
+      "englisch": "witness",
+      "satz": "Two witnesses described the same grey car.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 10,
-      "deutsch": "Pazifist(in)",
-      "englisch": "pacifist",
-      "satz": "He became a pacifist after seeing the war reports.",
-      "form": ""
+      "deutsch": "verdienen",
+      "englisch": "deserve",
+      "satz": "After all that work, she deserves a long holiday.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 11,
-      "deutsch": "Waffe",
-      "englisch": "weapon",
-      "satz": "The police found a weapon hidden under the seat.",
-      "form": ""
+      "deutsch": "sich engagieren",
+      "englisch": "get involved",
+      "satz": "More students should get involved in school politics.",
+      "form": "",
+      "quelle": "neu ergänzt"
     },
     {
       "nr": 12,
-      "deutsch": "Verbot, verbieten",
-      "englisch": "ban",
-      "satz": "Several cities plan to ban cars from the old centre.",
-      "form": ""
-    },
-    {
-      "nr": 13,
-      "deutsch": "Boykott, boykottieren",
-      "englisch": "boycott",
-      "satz": "Shoppers boycotted the brand after the scandal.",
-      "form": ""
-    },
-    {
-      "nr": 14,
-      "deutsch": "Unterstützer(in), Befürworter(in)",
-      "englisch": "supporter",
-      "satz": "Her supporters raised money for the legal costs.",
-      "form": ""
-    },
-    {
-      "nr": 15,
-      "deutsch": "Ziel, zielen",
-      "englisch": "aim",
-      "satz": "Our main aim was to finish the work before Friday.",
-      "form": ""
-    },
-    {
-      "nr": 16,
-      "deutsch": "einführen",
-      "englisch": "introduce",
-      "satz": "The school introduced a new timetable in March.",
-      "form": ""
-    },
-    {
-      "nr": 17,
-      "deutsch": "protestieren",
-      "englisch": "protest",
-      "satz": "Students protested against the higher fees.",
-      "form": ""
-    },
-    {
-      "nr": 18,
-      "deutsch": "großzügig",
-      "englisch": "generous",
-      "satz": "It was generous of her to pay for everyone.",
-      "form": ""
-    },
-    {
-      "nr": 19,
-      "deutsch": "obdachlos",
-      "englisch": "homeless",
-      "satz": "After the fire, dozens of families were homeless.",
-      "form": ""
-    },
-    {
-      "nr": 20,
-      "deutsch": "ehrlich",
-      "englisch": "honest",
-      "satz": "Please be honest and tell me what really happened.",
-      "form": ""
-    },
-    {
-      "nr": 21,
-      "deutsch": "arbeitslos",
-      "englisch": "unemployed",
-      "satz": "He has been unemployed since the factory closed.",
-      "form": ""
-    },
-    {
-      "nr": 22,
-      "deutsch": "mutig",
-      "englisch": "brave",
-      "satz": "She was brave enough to speak up in the meeting.",
-      "form": ""
-    },
-    {
-      "nr": 23,
-      "deutsch": "rücksichtsvoll, aufmerksam",
-      "englisch": "thoughtful",
-      "satz": "He is always thoughtful towards his neighbours.",
-      "form": ""
-    },
-    {
-      "nr": 24,
-      "deutsch": "gründlich, sorgfältig",
-      "englisch": "carefully",
-      "satz": "Read the instructions carefully before you start.",
-      "form": ""
-    },
-    {
-      "nr": 25,
-      "deutsch": "gleich, gleichermaßen",
-      "englisch": "equally",
-      "satz": "They divided the prize money equally between them.",
-      "form": ""
-    },
-    {
-      "nr": 26,
-      "deutsch": "Petition, Unterschriftensammlung",
-      "englisch": "petition",
-      "satz": "Over ten thousand people signed the petition.",
-      "form": ""
-    },
-    {
-      "nr": 27,
-      "deutsch": "Freiwillige(r)",
-      "englisch": "volunteer",
-      "satz": "Could you work as a volunteer for one weekend?",
-      "form": ""
-    },
-    {
-      "nr": 28,
-      "deutsch": "verdächtig",
-      "englisch": "suspicious",
-      "satz": "The guard noticed a suspicious bag near the door.",
-      "form": ""
-    },
-    {
-      "nr": 29,
-      "deutsch": "beschuldigen",
-      "englisch": "accuse",
-      "satz": "They accused him of copying his classmate's work.",
-      "form": ""
-    },
-    {
-      "nr": 30,
-      "deutsch": "verhindern",
-      "englisch": "prevent",
-      "satz": "Better lighting could prevent accidents at night.",
-      "form": ""
-    }
-  ],
-  "test2": [
-    {
-      "nr": 1,
-      "deutsch": "Akzeptanz",
-      "englisch": "acceptance",
-      "satz": "Public acceptance of the new rules grew slowly.",
-      "form": ""
-    },
-    {
-      "nr": 2,
-      "deutsch": "Toleranz",
-      "englisch": "tolerance",
-      "satz": "He showed little tolerance for careless work.",
-      "form": ""
-    },
-    {
-      "nr": 3,
-      "deutsch": "Ehrgeiz",
-      "englisch": "ambition",
-      "satz": "Her ambition drove her to train every morning.",
-      "form": ""
-    },
-    {
-      "nr": 4,
-      "deutsch": "Demokratie",
-      "englisch": "democracy",
-      "satz": "The country returned to democracy after the war.",
-      "form": ""
-    },
-    {
-      "nr": 5,
-      "deutsch": "Gier",
-      "englisch": "greed",
-      "satz": "His greed for money destroyed the friendship.",
-      "form": ""
-    },
-    {
-      "nr": 6,
-      "deutsch": "verbreiten",
-      "englisch": "spread",
-      "satz": "The news spread quickly through the whole school.",
-      "form": ""
-    },
-    {
-      "nr": 7,
-      "deutsch": "korrumpieren, verderben",
-      "englisch": "corrupt",
-      "satz": "Power can corrupt even the best of leaders.",
-      "form": ""
-    },
-    {
-      "nr": 8,
-      "deutsch": "unschuldig",
-      "englisch": "innocent",
-      "satz": "After ten years in prison, he was found innocent.",
-      "form": ""
-    },
-    {
-      "nr": 9,
-      "deutsch": "unzumutbar",
-      "englisch": "unacceptable",
-      "satz": "A delay of three hours is simply unacceptable.",
-      "form": ""
-    },
-    {
-      "nr": 10,
-      "deutsch": "loswerden",
-      "englisch": "get rid of",
-      "satz": "I finally got rid of my old broken bike.",
-      "form": ""
-    },
-    {
-      "nr": 11,
       "deutsch": "Glaube, Überzeugung",
       "englisch": "belief",
       "satz": "Nothing could shake her belief in the plan.",
-      "form": ""
-    },
-    {
-      "nr": 12,
-      "deutsch": "Gefangenschaft",
-      "englisch": "captivity",
-      "satz": "This bird has spent its whole life in captivity.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 7, p.68"
     },
     {
       "nr": 13,
-      "deutsch": "Unterschrift",
-      "englisch": "signature",
-      "satz": "Without your signature the form is not valid.",
-      "form": ""
+      "deutsch": "Gefangenschaft",
+      "englisch": "captivity",
+      "satz": "This bird has spent its whole life in captivity.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.68"
     },
     {
       "nr": 14,
-      "deutsch": "Junkfood, ungesundes Essen",
-      "englisch": "junk food",
-      "satz": "He lives on junk food and hardly ever cooks.",
-      "form": ""
+      "deutsch": "Unterschrift",
+      "englisch": "signature",
+      "satz": "Without your signature the form is not valid.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.68"
     },
     {
       "nr": 15,
       "deutsch": "Opfer",
       "englisch": "victim",
       "satz": "The victims of the flood received warm clothes.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 7, p.69"
     },
     {
       "nr": 16,
-      "deutsch": "vorschlagen",
-      "englisch": "propose",
-      "satz": "She proposed a shorter route through the forest.",
-      "form": ""
+      "deutsch": "einführen",
+      "englisch": "introduce",
+      "satz": "The school introduced a new timetable in March.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.69"
     },
     {
       "nr": 17,
-      "deutsch": "spontan",
-      "englisch": "spontaneous",
-      "satz": "Our trip to the lake was completely spontaneous.",
-      "form": ""
+      "deutsch": "vorschlagen",
+      "englisch": "propose",
+      "satz": "She proposed a shorter route through the forest.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.69"
     },
     {
       "nr": 18,
-      "deutsch": "Belohnung, Preis",
-      "englisch": "reward",
-      "satz": "There is a reward for anyone who finds the dog.",
-      "form": ""
+      "deutsch": "großzügig",
+      "englisch": "generous",
+      "satz": "It was generous of her to pay for everyone.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
     },
     {
       "nr": 19,
-      "deutsch": "Soldat(in)",
-      "englisch": "soldier",
-      "satz": "Hundreds of soldiers marched through the streets.",
-      "form": ""
+      "deutsch": "ehrlich",
+      "englisch": "honest",
+      "satz": "Please be honest and tell me what really happened.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
     },
     {
       "nr": 20,
-      "deutsch": "ermutigen",
-      "englisch": "encourage",
-      "satz": "My teacher encouraged me to enter the competition.",
-      "form": ""
+      "deutsch": "spontan",
+      "englisch": "spontaneous",
+      "satz": "Our trip to the lake was completely spontaneous.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
     },
     {
       "nr": 21,
-      "deutsch": "zurückweisen, ablehnen",
-      "englisch": "reject",
-      "satz": "The company rejected his offer without explanation.",
-      "form": ""
+      "deutsch": "Operation",
+      "englisch": "surgery",
+      "satz": "Her surgery lasted four hours and went well.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
     },
     {
       "nr": 22,
-      "deutsch": "persönlich, selber",
-      "englisch": "personally",
-      "satz": "I personally checked every page of the report.",
-      "form": ""
+      "deutsch": "zurückweisen, ablehnen",
+      "englisch": "reject",
+      "satz": "The company rejected his offer without explanation.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
     },
     {
       "nr": 23,
-      "deutsch": "schlau",
-      "englisch": "clever",
-      "satz": "That was a clever way to solve the problem.",
-      "form": ""
+      "deutsch": "persönlich, selber",
+      "englisch": "personally",
+      "satz": "I personally checked every page of the report.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.71"
     },
     {
       "nr": 24,
-      "deutsch": "selbstsicher",
-      "englisch": "confident",
-      "satz": "She felt confident before the exam.",
-      "form": ""
+      "deutsch": "mutig",
+      "englisch": "brave",
+      "satz": "She was brave enough to speak up in the meeting.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
     },
     {
       "nr": 25,
-      "deutsch": "heldenhaft, heroisch",
-      "englisch": "heroic",
-      "satz": "Firefighters praised his heroic rescue of the boy.",
-      "form": ""
+      "deutsch": "selbstsicher",
+      "englisch": "confident",
+      "satz": "She felt confident before the exam.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
     },
     {
       "nr": 26,
       "deutsch": "verständnisvoll",
       "englisch": "sympathetic",
       "satz": "My tutor was sympathetic and took time to listen.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
     },
     {
       "nr": 27,
-      "deutsch": "verzweifelt, dringend",
-      "englisch": "desperately",
-      "satz": "He desperately tried to reach the last train.",
-      "form": ""
+      "deutsch": "rücksichtsvoll, aufmerksam",
+      "englisch": "thoughtful",
+      "satz": "He is always thoughtful towards his neighbours.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
     },
     {
       "nr": 28,
-      "deutsch": "leider",
-      "englisch": "unfortunately",
-      "satz": "Unfortunately, the museum was closed that day.",
-      "form": ""
+      "deutsch": "gleich, gleichermaßen",
+      "englisch": "equally",
+      "satz": "They divided the prize money equally between them.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
     },
     {
       "nr": 29,
+      "deutsch": "Freiwillige(r)",
+      "englisch": "volunteer",
+      "satz": "Could you work as a volunteer for one weekend?",
+      "form": "",
+      "quelle": "Excel Unit 7, p.73"
+    },
+    {
+      "nr": 30,
       "deutsch": "Gunst, Gefallen",
       "englisch": "favour",
       "satz": "Could you do me a favour and feed the cat?",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 7, p.75"
+    }
+  ],
+  "test2": [
+    {
+      "nr": 1,
+      "deutsch": "dankbar",
+      "englisch": "grateful",
+      "satz": "We are grateful for everything you did for us.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 2,
+      "deutsch": "schuldig",
+      "englisch": "guilty",
+      "satz": "The court found both men guilty last Monday.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 3,
+      "deutsch": "sich öffentlich äussern",
+      "englisch": "speak out",
+      "satz": "Few workers dared to speak out against the boss.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 4,
+      "deutsch": "Wohltätigkeitsorganisation",
+      "englisch": "charity",
+      "satz": "She has worked for the same charity for ten years.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 5,
+      "deutsch": "Menschenrechte",
+      "englisch": "human rights",
+      "satz": "The report describes serious human rights abuses.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 6,
+      "deutsch": "Empörung",
+      "englisch": "outrage",
+      "satz": "The decision caused outrage among the parents.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 7,
+      "deutsch": "Flüchtling",
+      "englisch": "refugee",
+      "satz": "The refugees were given beds in the school hall.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 8,
+      "deutsch": "Kampf, sich abmühen",
+      "englisch": "struggle",
+      "satz": "Their struggle for better wages lasted two years.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 9,
+      "deutsch": "sich einsetzen für",
+      "englisch": "stand up for",
+      "satz": "She always stands up for her younger brother.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 10,
+      "deutsch": "etwas bewirken",
+      "englisch": "make a difference",
+      "satz": "Even one person can make a difference in a village.",
+      "form": "",
+      "quelle": "neu ergänzt"
+    },
+    {
+      "nr": 11,
+      "deutsch": "Verbot, verbieten",
+      "englisch": "ban",
+      "satz": "Several cities plan to ban cars from the old centre.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.68"
+    },
+    {
+      "nr": 12,
+      "deutsch": "Boykott, boykottieren",
+      "englisch": "boycott",
+      "satz": "Shoppers boycotted the brand after the scandal.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.68"
+    },
+    {
+      "nr": 13,
+      "deutsch": "Unterstützer(in), Befürworter(in)",
+      "englisch": "supporter",
+      "satz": "Her supporters raised money for the legal costs.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.68"
+    },
+    {
+      "nr": 14,
+      "deutsch": "Ziel, zielen",
+      "englisch": "aim",
+      "satz": "Our main aim was to finish the work before Friday.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.69"
+    },
+    {
+      "nr": 15,
+      "deutsch": "Junkfood, ungesundes Essen",
+      "englisch": "junk food",
+      "satz": "He lives on junk food and hardly ever cooks.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.69"
+    },
+    {
+      "nr": 16,
+      "deutsch": "protestieren",
+      "englisch": "protest",
+      "satz": "Students protested against the higher fees.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.69"
+    },
+    {
+      "nr": 17,
+      "deutsch": "obdachlos",
+      "englisch": "homeless",
+      "satz": "After the fire, dozens of families were homeless.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
+    },
+    {
+      "nr": 18,
+      "deutsch": "arbeitslos",
+      "englisch": "unemployed",
+      "satz": "He has been unemployed since the factory closed.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
+    },
+    {
+      "nr": 19,
+      "deutsch": "Belohnung, Preis",
+      "englisch": "reward",
+      "satz": "There is a reward for anyone who finds the dog.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
+    },
+    {
+      "nr": 20,
+      "deutsch": "Soldat(in)",
+      "englisch": "soldier",
+      "satz": "Hundreds of soldiers marched through the streets.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
+    },
+    {
+      "nr": 21,
+      "deutsch": "ermutigen",
+      "englisch": "encourage",
+      "satz": "My teacher encouraged me to enter the competition.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.70"
+    },
+    {
+      "nr": 22,
+      "deutsch": "schlau",
+      "englisch": "clever",
+      "satz": "That was a clever way to solve the problem.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
+    },
+    {
+      "nr": 23,
+      "deutsch": "heldenhaft, heroisch",
+      "englisch": "heroic",
+      "satz": "Firefighters praised his heroic rescue of the boy.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
+    },
+    {
+      "nr": 24,
+      "deutsch": "organisiert",
+      "englisch": "organized",
+      "satz": "The protest was well organized and stayed peaceful.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
+    },
+    {
+      "nr": 25,
+      "deutsch": "gründlich, sorgfältig",
+      "englisch": "carefully",
+      "satz": "Read the instructions carefully before you start.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.72"
+    },
+    {
+      "nr": 26,
+      "deutsch": "verzweifelt, dringend",
+      "englisch": "desperately",
+      "satz": "He desperately tried to reach the last train.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.73"
+    },
+    {
+      "nr": 27,
+      "deutsch": "leider",
+      "englisch": "unfortunately",
+      "satz": "Unfortunately, the museum was closed that day.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.74"
+    },
+    {
+      "nr": 28,
+      "deutsch": "verdächtig",
+      "englisch": "suspicious",
+      "satz": "The guard noticed a suspicious bag near the door.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.75"
+    },
+    {
+      "nr": 29,
+      "deutsch": "beschuldigen",
+      "englisch": "accuse",
+      "satz": "They accused him of copying his classmate's work.",
+      "form": "",
+      "quelle": "Excel Unit 7, p.75"
     },
     {
       "nr": 30,
       "deutsch": "Spende",
       "englisch": "donation",
       "satz": "The hospital received a large donation last week.",
-      "form": ""
+      "form": "",
+      "quelle": "Excel Unit 7, p.76"
     }
   ]
 }
