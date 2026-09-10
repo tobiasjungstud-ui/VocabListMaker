@@ -85,6 +85,20 @@ Schritt 3 prüft die von Hand geschriebenen Inhalte genauso streng wie
 automatisch erzeugte: Doppelungen, Niveau, Balance, Zielwort im Satz,
 verratene Lösung – und zusätzlich, ob jede Liste auf eine A4-Seite passt.
 
+**Herkunftsnachweis.** Mit `--herkunft wordlist.xlsx` gleicht die Anwendung
+die fertige Liste gegen die Excel-Datei ab und zeigt, welche Wörter
+weggelassen wurden (gruppiert nach Grund), welche entgegen der automatischen
+Prüfung behalten wurden, bei welchen die deutsche Übersetzung geändert wurde
+und – am wichtigsten – **welche Wörter gar nicht in der Excel-Datei stehen**:
+
+```bash
+vocablistmaker --aus-datei kuratiert/unit_7.json -o Unit_7.docx \
+    --herkunft wordlist.xlsx
+```
+
+So ist jederzeit nachprüfbar, ob eine Liste stillschweigend um erfundene
+Begriffe ergänzt wurde.
+
 Fertige, geprüfte Listen liegen unter `kuratiert/` (aktuell Unit 7 und Unit 8).
 
 > **Mustersätze abschalten:** `--keine-mustersaetze` lässt die Anwendung
@@ -127,6 +141,10 @@ vocablistmaker wordlist.xlsx 4 --report bericht.md --json bericht.json --no-llm
 | `--model` | anderes Modell (Standard `claude-opus-5`) |
 | `--seed` | Zufallsstartwert für reproduzierbare Auswahl |
 | `--list-units` | vorhandene Units anzeigen |
+| `--export-auswahl` | geprüfte Wortauswahl als JSON-Gerüst schreiben |
+| `--aus-datei` | Word-Datei aus kuratierter JSON-Datei bauen |
+| `--herkunft` | Abgleich gegen die Excel-Datei: weggelassen, ersetzt, ergänzt |
+| `--keine-mustersaetze` | abbrechen statt Mustersätze zu erzeugen |
 | `-v` | Fortschritt anzeigen |
 
 Der Rückgabewert ist `0`, wenn keine Fehler gefunden wurden, sonst `1` — damit
@@ -288,6 +306,7 @@ VocabListMaker/
 │   ├── validation.py             Qualitätskontrolle
 │   ├── layout.py                 Seitenberechnung (passt es auf A4?)
 │   ├── curated.py                Kuratierte Inhalte aus dem Chat
+│   ├── provenance.py             Herkunftsnachweis gegen die Excel-Datei
 │   ├── docx_writer.py            Word-Ausgabe im Vorlagenlayout
 │   ├── report.py                 Qualitätsbericht
 │   ├── pipeline.py               Gesamtablauf

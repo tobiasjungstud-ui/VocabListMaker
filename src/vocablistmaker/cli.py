@@ -14,6 +14,7 @@ from .docx_writer import check_page_fit, suggested_filename, write_docx
 from .excel_reader import parse_unit_input, read_workbook
 from .llm import LLMClient
 from .pipeline import generate_tests
+from .provenance import analyse
 from .report import summary_line, to_json, to_markdown
 
 
@@ -47,6 +48,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--keine-mustersaetze", action="store_true",
         help="Abbrechen statt Beispielsätze aus festen Mustern zu erzeugen.",
+    )
+    parser.add_argument(
+        "--herkunft", type=Path, default=None, metavar="EXCEL",
+        help=(
+            "Zusammen mit --aus-datei: gegen diese Excel-Datei prüfen, welche "
+            "Wörter weggelassen, ersetzt oder frei ergänzt wurden."
+        ),
     )
     parser.add_argument("--seed", type=int, default=None, help="Zufallsstartwert")
     parser.add_argument("-v", "--verbose", action="store_true", help="Ausführliche Ausgabe")
@@ -89,6 +97,13 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Word-Datei geschrieben: {output}")
         for name, items in (("Test 1", pair.test1), ("Test 2", pair.test2)):
             print(f"  {name}: {check_page_fit(items, settings).describe()}")
+        if args.herkunft:
+            if not args.herkunft.exists():
+                print(f"Die Datei '{args.herkunft}' wurde nicht gefunden.", file=sys.stderr)
+                return 2
+            book = read_workbook(args.herkunft)
+            print()
+            print(analyse(pair, book, pair.unit).to_markdown())
         if args.report:
             args.report.write_text(to_markdown(pair), encoding="utf-8")
             print(f"Bericht geschrieben:    {args.report}")
