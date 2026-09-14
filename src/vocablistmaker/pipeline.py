@@ -431,6 +431,12 @@ def generate_tests(
             "Bitte eine Unit mit mehr Vokabular wählen oder die Wortliste ergänzen."
         )
 
+    # Wie viele Wörter trugen ohne Lockerung aus dem Pool bei? Diese Zahl
+    # ist die Grundlage dafür, wie viel ergänzt werden muss.
+    report.stats["aus_pool_ohne_lockerung"] = sum(
+        1 for c in chosen if "aufgefuellt" not in c.flags and c.origin == "excel"
+    )
+
     notify("Tests werden ausbalanciert …", 0.62)
     test1, test2 = split_balanced(chosen, settings.words_per_test, seed=settings.seed)
 

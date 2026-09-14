@@ -15,6 +15,7 @@ from __future__ import annotations
 from collections import defaultdict
 from dataclasses import dataclass, field
 
+from .additions import MAX_ADDITION_SHARE, classify, max_additions
 from .excel_reader import Workbook, is_core_section, strip_page_reference
 from .leveling import LevelContext, is_usable, score_candidate
 from .models import Candidate, TestPair
@@ -68,16 +69,26 @@ class Provenance:
             lines.append("")
 
         if self.invented:
-            share = f"{self.invented_share:.0%}"
+            words = [(e, g) for e, g in self.invented if classify(e) == "Wort"]
+            phrases = [(e, g) for e, g in self.invented if classify(e) == "Ausdruck"]
+            cap = max_additions(len(self.used)) if self.used else 0
+            state = "innerhalb" if self.invented_share <= MAX_ADDITION_SHARE else "ÜBER"
             lines += [
-                f"### Selbst ergänzt, nicht aus der Excel-Datei ({len(self.invented)} von "
-                f"{len(self.used)} = {share})",
+                f"### Selbst ergänzt, nicht aus der Excel-Datei "
+                f"({len(self.invented)} von {len(self.used)} = "
+                f"{self.invented_share:.0%}, {state} der Grenze von "
+                f"{MAX_ADDITION_SHARE:.0%} bzw. {cap} Einträgen)",
                 "",
-                "| Englisch | Deutsch |",
-                "|---|---|",
+                f"Davon **{len(words)} Einzelwörter** und "
+                f"**{len(phrases)} Ausdrücke**.",
+                "",
+                "| Art | Englisch | Deutsch |",
+                "|---|---|---|",
             ]
-            for english, german in self.invented:
-                lines.append(f"| {english} | {german} |")
+            for english, german in words:
+                lines.append(f"| Wort | {english} | {german} |")
+            for english, german in phrases:
+                lines.append(f"| Ausdruck | {english} | {german} |")
         else:
             lines += [
                 "### Nicht aus der Excel-Datei (eigene Ergänzungen)",

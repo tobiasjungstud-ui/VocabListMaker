@@ -114,3 +114,44 @@ def test_shipped_lists_are_clean(unit: int) -> None:
     assert len(pair.test1) == 30 and len(pair.test2) == 30
     assert pair.report.stats["seitenfuellung_test1"] <= 1.0
     assert pair.report.stats["seitenfuellung_test2"] <= 1.0
+
+
+def test_export_writes_placeholders_for_both_kinds(pair: TestPair, tmp_path: Path) -> None:
+    from vocablistmaker.additions import plan_additions
+
+    plan = plan_additions(39, 60, extra_words=12, extra_expressions=9)
+    target = export_selection(pair, tmp_path / "auswahl.json", plan=plan)
+    data = json.loads(target.read_text(encoding="utf-8"))
+    rows = data["test1"] + data["test2"]
+    assert sum(1 for r in rows if r["quelle"] == "ZU ERGÄNZEN (Wort)") == 12
+    assert sum(1 for r in rows if r["quelle"] == "ZU ERGÄNZEN (Ausdruck)") == 9
+    assert data["plan"]["ergaenzte_ausdruecke"] == 9
+
+
+def test_unfilled_placeholder_is_refused(pair: TestPair, tmp_path: Path) -> None:
+    from vocablistmaker.additions import plan_additions
+
+    plan = plan_additions(39, 60, extra_words=12, extra_expressions=9)
+    target = export_selection(pair, tmp_path / "auswahl.json", plan=plan, keep_sentences=True)
+    with pytest.raises(ValueError, match="ZU ERGÄNZEN"):
+        load_curated(target)
+
+
+def test_report_counts_words_and_expressions(tmp_path: Path) -> None:
+    rows = []
+    for i in range(1, 31):
+        rows.append({"nr": i, "deutsch": f"Wort {i}", "englisch": "petition",
+                     "satz": "She signed the petition last week.", "quelle": "Hauptteil"})
+    extra = [
+        {"nr": 1, "deutsch": "sich einsetzen für", "englisch": "stand up for",
+         "satz": "She always stands up for her brother.", "quelle": "neu (Ausdruck)"},
+        {"nr": 2, "deutsch": "Vorurteil", "englisch": "prejudice",
+         "satz": "Their prejudice slowly disappeared here.", "quelle": "neu (Wort)"},
+    ]
+    payload = {"schema": 1, "unit": 7, "unit_label": "Unit 7",
+               "test1": rows, "test2": extra + rows[:28]}
+    path = tmp_path / "k.json"
+    path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    pair = load_curated(path)
+    assert pair.report.stats["ergaenzte_ausdruecke"] == 1
+    assert pair.report.stats["ergaenzte_woerter"] == 1

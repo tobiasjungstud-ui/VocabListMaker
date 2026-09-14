@@ -57,9 +57,22 @@ müssen:
 * für B1.2–B2.1 einen echten Zugewinn für den sprachlichen Ausdruck bieten,
 * mit keinem vorhandenen Wort kollidieren.
 
-**Höchstens 40 % der 60 Wörter dürfen ergänzt sein** (also maximal 24).
-Reicht das nicht, werden zuerst Grenzfälle aus dem Hauptteil wieder
-zugelassen, bevor weiter ergänzt wird.
+Ergänzt wird in **zwei Arten**, getrennt steuerbar:
+
+* `--zusatz-woerter N` — N zusätzliche **Einzelwörter** (`prejudice`, `refugee`)
+* `--zusatz-ausdruecke N` — N zusätzliche **Ausdrücke** (`stand up for`,
+  `make a difference`, `box office`). Ausdrücke sind oft der grössere Gewinn,
+  weil ihre Bedeutung nicht aus den Bestandteilen ableitbar ist.
+
+Ohne Angabe wird nur die Lücke gefüllt, alles als Einzelwörter.
+`--export-auswahl` schreibt dann Platzhalterzeilen `ZU ERGÄNZEN (Wort)` bzw.
+`ZU ERGÄNZEN (Ausdruck)`; eine nicht ausgefüllte Platzhalterzeile lässt
+`--aus-datei` mit einem Fehler abbrechen.
+
+**Höchstens 40 % der 60 Wörter dürfen ergänzt sein** (also maximal 24);
+`additions.plan_additions` setzt das durch. Reicht das nicht, werden zuerst
+Grenzfälle aus dem Hauptteil wieder zugelassen, bevor weiter ergänzt wird.
+Im Chat-Bericht werden Einzelwörter und Ausdrücke **getrennt ausgewiesen**.
 
 ## Layout
 

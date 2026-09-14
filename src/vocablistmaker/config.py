@@ -44,6 +44,10 @@ class Settings:
     core_sections_only: bool = field(
         default_factory=lambda: _env_bool("VLM_CORE_ONLY", False)
     )
+    #: Wie viele Einträge selbst ergänzt werden sollen, getrennt nach
+    #: Einzelwörtern und Ausdrücken. ``None`` heisst "nur die Lücke füllen".
+    extra_words: int | None = None
+    extra_expressions: int | None = None
     max_repair_rounds: int = field(default_factory=lambda: _env_int("VLM_REPAIR_ROUNDS", 3))
 
     # --- Ausgabe ---

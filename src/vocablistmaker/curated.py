@@ -19,6 +19,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .additions import AdditionPlan, classify
 from .config import Settings
 from .leveling import score_candidate
 from .models import Candidate, QualityReport, Severity, TestItem, TestPair
@@ -35,33 +36,81 @@ def _item_to_dict(item: TestItem) -> dict[str, Any]:
         "englisch": item.english,
         "satz": item.sentence,
         "form": item.sentence_form,
+        "quelle": item.source or "Hauptteil",
     }
 
 
-def export_selection(pair: TestPair, path: str | Path, keep_sentences: bool = False) -> Path:
-    """Schreibt die Wortauswahl als bearbeitbares Gerüst."""
+def _placeholder(number: int, kind: str) -> dict[str, Any]:
+    return {
+        "nr": number,
+        "deutsch": "",
+        "englisch": "",
+        "satz": "",
+        "form": "",
+        "quelle": f"ZU ERGÄNZEN ({kind})",
+    }
+
+
+def export_selection(
+    pair: TestPair,
+    path: str | Path,
+    keep_sentences: bool = False,
+    plan: AdditionPlan | None = None,
+) -> Path:
+    """Schreibt die Wortauswahl als bearbeitbares Gerüst.
+
+    Ist ``plan`` gesetzt, enthält das Gerüst zusätzlich leere Platzhalter für
+    die zu ergänzenden Einzelwörter und Ausdrücke - so ist beim Ausfüllen
+    sofort sichtbar, wie viele von welcher Art noch fehlen.
+    """
     def block(items: list[TestItem]) -> list[dict[str, Any]]:
         rows = []
         for item in items:
             row = _item_to_dict(item)
+            row["quelle"] = item.source or "Hauptteil"
             if not keep_sentences:
                 row["satz"] = ""
                 row["form"] = ""
             rows.append(row)
         return rows
 
+    test1, test2 = block(pair.test1), block(pair.test2)
+
+    if plan is not None and plan.extra_total:
+        # Platzhalter abwechselnd auf beide Tests verteilen.
+        keep = plan.from_workbook
+        merged = [r for pairwise in zip(test1, test2, strict=False) for r in pairwise]
+        merged += test1[len(test2):] + test2[len(test1):]
+        merged = merged[:keep]
+        slots = ["Wort"] * plan.extra_words + ["Ausdruck"] * plan.extra_expressions
+        merged += [_placeholder(0, kind) for kind in slots]
+        half = plan.target // 2
+        test1, test2 = merged[:half], merged[half:]
+
+    for rows in (test1, test2):
+        for index, row in enumerate(rows, 1):
+            row["nr"] = index
+
     payload = {
         "schema": SCHEMA_VERSION,
         "unit": pair.unit,
         "unit_label": pair.unit_label,
         "hinweis": (
-            "Feld 'satz' je Eintrag ausfüllen. 'form' ist die im Satz "
-            "verwendete Wortform für die Fettschrift und darf leer bleiben - "
-            "sie wird dann automatisch bestimmt."
+            "Feld 'satz' je Eintrag ausfüllen. Einträge mit 'ZU ERGÄNZEN' "
+            "brauchen zusätzlich 'deutsch' und 'englisch'. 'form' ist die im "
+            "Satz verwendete Wortform für die Fettschrift und darf leer "
+            "bleiben - sie wird dann automatisch bestimmt."
         ),
-        "test1": block(pair.test1),
-        "test2": block(pair.test2),
+        "test1": test1,
+        "test2": test2,
     }
+    if plan is not None:
+        payload["plan"] = {
+            "aus_hauptteil": plan.from_workbook,
+            "ergaenzte_woerter": plan.extra_words,
+            "ergaenzte_ausdruecke": plan.extra_expressions,
+            "anteil_ergaenzt": round(plan.share, 3),
+        }
     target = Path(path)
     target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return target
@@ -74,8 +123,18 @@ def _read_items(rows: list[dict[str, Any]], test_name: str) -> list[TestItem]:
         german = str(row.get("deutsch", "")).strip()
         sentence = str(row.get("satz", "")).strip()
         if not english or not german:
+            if str(row.get("quelle", "")).startswith("ZU ERGÄNZEN"):
+                raise ValueError(
+                    f"{test_name}, Eintrag {index}: Platzhalter "
+                    f"„{row['quelle']}“ wurde nicht ausgefüllt."
+                )
             raise ValueError(
                 f"{test_name}, Eintrag {index}: 'deutsch' und 'englisch' sind Pflichtfelder."
+            )
+        if str(row.get("quelle", "")).startswith("ZU ERGÄNZEN"):
+            raise ValueError(
+                f"{test_name}, Eintrag {index}: Platzhalter „{row['quelle']}“ "
+                "wurde nicht ausgefüllt."
             )
         if not sentence:
             raise ValueError(
@@ -90,6 +149,7 @@ def _read_items(rows: list[dict[str, Any]], test_name: str) -> list[TestItem]:
                 english=english,
                 sentence=sentence,
                 sentence_form=find_form_in_sentence(sentence, english, form) or form or english,
+                source=str(row.get("quelle", "")),
             )
         )
     return items
@@ -118,6 +178,11 @@ def load_curated(path: str | Path, settings: Settings | None = None) -> TestPair
     return pair
 
 
+def _is_addition(item: TestItem) -> bool:
+    """Stammt der Eintrag aus einer Ergänzung statt aus der Wortliste?"""
+    return str(item.source or "").lower().startswith("neu")
+
+
 def _to_candidates(items: list[TestItem]) -> list[Candidate]:
     candidates = []
     for item in items:
@@ -141,6 +206,13 @@ def review_curated(pair: TestPair, settings: Settings | None = None) -> QualityR
         _to_candidates(pair.test1), _to_candidates(pair.test2), len(pair.test1) or 30
     )
     report.stats["quelle"] = "kuratiert"
+
+    added = [i for i in pair.all_items if _is_addition(i)]
+    report.stats["ergaenzt_gesamt"] = len(added)
+    report.stats["ergaenzte_woerter"] = sum(1 for i in added if classify(i.english) == "Wort")
+    report.stats["ergaenzte_ausdruecke"] = sum(
+        1 for i in added if classify(i.english) == "Ausdruck"
+    )
 
     from .docx_writer import check_page_fit
 

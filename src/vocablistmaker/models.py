@@ -146,6 +146,8 @@ class TestItem:
     english: str
     sentence: str
     sentence_form: str = ""
+    #: "Hauptteil" oder "neu (Wort)" / "neu (Ausdruck)".
+    source: str = ""
 
     @classmethod
     def from_candidate(cls, number: int, c: Candidate) -> TestItem:
@@ -155,6 +157,7 @@ class TestItem:
             english=c.headword or c.english,
             sentence=c.sentence,
             sentence_form=c.sentence_form or (c.headword or c.english),
+            source=("neu" if c.origin in {"llm", "neu"} else "Hauptteil"),
         )
 
 

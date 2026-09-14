@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .additions import AdditionPlanError, plan_additions
 from .config import Settings
 from .curated import export_selection, load_curated
 from .docx_writer import check_page_fit, suggested_filename, write_docx
@@ -50,6 +51,17 @@ def build_parser() -> argparse.ArgumentParser:
         help="Abbrechen statt Beispielsätze aus festen Mustern zu erzeugen.",
     )
     parser.add_argument(
+        "--zusatz-woerter", type=int, default=None, metavar="N",
+        help="Wie viele zusätzliche Einzelwörter ergänzt werden sollen.",
+    )
+    parser.add_argument(
+        "--zusatz-ausdruecke", type=int, default=None, metavar="N",
+        help=(
+            "Wie viele zusätzliche Ausdrücke ergänzt werden sollen "
+            "(Wendungen wie 'stand up for', 'make a difference')."
+        ),
+    )
+    parser.add_argument(
         "--nur-hauptteil", action="store_true",
         help=(
             "Nur den Hauptteil einer Unit verwenden, ohne Culture, Songs, "
@@ -87,6 +99,8 @@ def main(argv: list[str] | None = None) -> int:
         settings.allow_template_sentences = False
     if getattr(args, "nur_hauptteil", False):
         settings.core_sections_only = True
+    settings.extra_words = getattr(args, "zusatz_woerter", None)
+    settings.extra_expressions = getattr(args, "zusatz_ausdruecke", None)
     if args.export_auswahl:
         # Beim Export interessieren nur die Wörter - Sätze kommen später.
         settings.allow_template_sentences = True
@@ -162,10 +176,31 @@ def main(argv: list[str] | None = None) -> int:
     pair = result.pair
 
     if args.export_auswahl:
-        export_selection(pair, args.export_auswahl)
+        available = int(
+            pair.report.stats.get(
+                "aus_pool_ohne_lockerung", len(pair.test1) + len(pair.test2)
+            )
+        )
+        try:
+            plan = plan_additions(
+                available, settings.target_total,
+                settings.extra_words, settings.extra_expressions,
+            )
+        except AdditionPlanError as exc:
+            print(f"Fehler: {exc}", file=sys.stderr)
+            return 1
+        export_selection(pair, args.export_auswahl, plan=plan)
         print(f"Wortauswahl geschrieben: {args.export_auswahl}")
+        print(f"  Hauptteil liefert {available} geprüfte Wörter.")
+        print(f"  {plan.describe()}")
+        if plan.extra_total:
+            print(
+                f"  {plan.extra_total} Platzhalter sind auszufüllen: "
+                f"{plan.extra_words}x 'ZU ERGÄNZEN (Wort)', "
+                f"{plan.extra_expressions}x 'ZU ERGÄNZEN (Ausdruck)'."
+            )
         print(
-            "Jetzt die Felder 'satz' ausfüllen und danach mit "
+            "Jetzt die Felder ausfüllen und danach mit "
             f"--aus-datei {args.export_auswahl} die Word-Datei erzeugen."
         )
         return 0

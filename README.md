@@ -72,8 +72,11 @@ mit Claude und werden dort auch gegengelesen. Es wird kein API-Schlüssel
 benötigt.
 
 ```bash
-# 1. Geprüfte Wortauswahl als Gerüst ausgeben
-vocablistmaker wordlist.xlsx "Unit 7" --no-llm --export-auswahl kuratiert/unit_7.json
+# 1. Geprüfte Wortauswahl als Gerüst ausgeben - mit Platzhaltern für
+#    zusätzliche Einzelwörter und Ausdrücke
+vocablistmaker wordlist.xlsx "Unit 7" --no-llm --nur-hauptteil \
+    --zusatz-woerter 12 --zusatz-ausdruecke 9 \
+    --export-auswahl kuratiert/unit_7.json
 
 # 2. Die Felder "satz" im Chat mit Claude ausfüllen lassen
 
@@ -146,6 +149,8 @@ vocablistmaker wordlist.xlsx 4 --report bericht.md --json bericht.json --no-llm
 | `--herkunft` | Abgleich gegen die Excel-Datei: weggelassen, ersetzt, ergänzt |
 | `--keine-mustersaetze` | abbrechen statt Mustersätze zu erzeugen |
 | `--nur-hauptteil` | nur den Block `Unit N`, ohne Culture/Songs/Project/Extra |
+| `--zusatz-woerter` | Anzahl zusätzlicher Einzelwörter |
+| `--zusatz-ausdruecke` | Anzahl zusätzlicher Ausdrücke (`stand up for`) |
 | `-v` | Fortschritt anzeigen |
 
 Der Rückgabewert ist `0`, wenn keine Fehler gefunden wurden, sonst `1` — damit
