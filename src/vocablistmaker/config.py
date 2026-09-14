@@ -48,12 +48,16 @@ class Settings:
     #: Einzelwörtern und Ausdrücken. ``None`` heisst "nur die Lücke füllen".
     extra_words: int | None = None
     extra_expressions: int | None = None
+    extra_chunks: int | None = None
     max_repair_rounds: int = field(default_factory=lambda: _env_int("VLM_REPAIR_ROUNDS", 3))
 
     # --- Ausgabe ---
     heading_test1: str = field(default_factory=lambda: os.environ.get("VLM_HEADING1", "Test 1"))
     heading_test2: str = field(default_factory=lambda: os.environ.get("VLM_HEADING2", "Test 2"))
     column_titles: tuple[str, str, str, str] = ("Nr.", "Deutsch", "English", "Example sentence")
+    #: Spaltenbreiten in Twips. ``None`` wählt automatisch: Vorlagenraster,
+    #: bei Chunks ein breiteres.
+    column_widths: tuple[int, ...] | None = None
     font_name: str = field(default_factory=lambda: os.environ.get("VLM_FONT", "Century Gothic"))
     # 10 pt statt der 11 pt der Vorlage: Bei 30 Einträgen mit zweizeiligen
     # Beispielsätzen liefe eine Liste bei 11 pt auf eine zweite Seite.

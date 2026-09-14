@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
 from .models import Candidate
-from .normalize import german_glosses, normalize_key, same_family
+from .normalize import german_glosses, is_chunk, normalize_key, same_family
 
 GLOSS_OVERLAP_THRESHOLD = 0.86
 
@@ -62,6 +62,10 @@ def overlap_reason(a: Candidate, b: Candidate) -> str | None:
         return None
     if ka == kb:
         return "identisches Stichwort"
+    if is_chunk(a.headword) or is_chunk(b.headword):
+        # Satzrahmen teilen zwangsläufig Allerweltswörter mit anderen
+        # Einträgen; nur echte Gleichheit zählt als Doppelung.
+        return None
     if same_family(a.headword, b.headword):
         return "gleiche Wortfamilie"
     if _gloss_conflict(a, b):

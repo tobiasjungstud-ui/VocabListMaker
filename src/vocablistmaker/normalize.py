@@ -179,6 +179,32 @@ def is_multiword(english: str) -> bool:
     return len(headword(english).split()) > 1
 
 
+#: Auslassungszeichen, die eine offene Stelle in einem Chunk markieren.
+ELLIPSIS = ("…", "...", "___", "__")
+
+
+def is_chunk(english: str) -> bool:
+    """Ist der Eintrag ein Satzrahmen mit offener Stelle?
+
+    ``"What stood out to me was …"`` ist ein Chunk, ``"stand up for"``
+    dagegen ein Ausdruck: Ein Chunk wird im Beispielsatz fortgesetzt, ein
+    Ausdruck nur eingebaut.
+    """
+    return any(marker in str(english) for marker in ELLIPSIS)
+
+
+def chunk_body(english: str) -> str:
+    """Der feste Teil eines Chunks, ohne Auslassungszeichen.
+
+    ``"What stood out to me was …"`` -> ``"What stood out to me was"``.
+    """
+    text = str(english)
+    for marker in ELLIPSIS:
+        text = text.replace(marker, " ")
+    text = re.sub(r"\s+", " ", text).strip()
+    return text.strip(" ,;:-–—")
+
+
 def pos_from_german(german: str, english: str = "") -> POS:
     """Wortart aus der deutschen Übersetzung ableiten.
 

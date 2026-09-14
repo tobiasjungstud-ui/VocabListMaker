@@ -20,6 +20,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Pt, Twips
 
+from .additions import classify
 from .config import Settings
 from .layout import FitResult, check_fits_page
 from .models import TestItem, TestPair
@@ -35,13 +36,33 @@ HEADER_DISTANCE = 419
 FOOTER_DISTANCE = 0
 
 TABLE_WIDTH = 9520
+#: Spaltenraster der Vorlage: Nr. / Deutsch / English / Beispielsatz.
 COLUMN_WIDTHS = (435, 2511, 2024, 4550)
+#: Breiteres Raster für Listen mit Chunks. Satzrahmen wie
+#: "One of the strongest aspects of the film is …" brauchen in der
+#: Englisch-Spalte sonst drei Zeilen und sprengen die Seite.
+CHUNK_COLUMN_WIDTHS = (435, 2850, 2600, 3635)
 CELL_MARGIN = 70
 ROW_HEIGHT = 397
 BORDER_SIZE = 4
 BORDER_COLOR = "000000"
 
 _FALLBACK_FONTS = "Century Gothic, Calibri, sans-serif"
+
+
+def choose_column_widths(items, settings: Settings | None = None) -> tuple[int, ...]:
+    """Passendes Spaltenraster für eine Liste.
+
+    Enthält die Liste Chunks, bekommen die Spalten "Deutsch" und "English"
+    mehr Platz - sonst umbricht ein Satzrahmen dreimal und die Liste passt
+    nicht mehr auf eine Seite.
+    """
+    settings = settings or Settings()
+    if settings.column_widths is not None:
+        return tuple(settings.column_widths)
+    if any(classify(getattr(i, "english", "")) == "Chunk" for i in items):
+        return CHUNK_COLUMN_WIDTHS
+    return COLUMN_WIDTHS
 
 
 def _set(element, tag: str, **attrs) -> None:
@@ -168,7 +189,7 @@ def _split_highlight(text: str, highlight: str) -> list[tuple[str, bool]]:
     return parts
 
 
-def _set_table_properties(table) -> None:
+def _set_table_properties(table, widths: tuple[int, ...] = COLUMN_WIDTHS) -> None:
     tbl_pr = table._tbl.tblPr
     for tag in ("w:tblW", "w:tblCellMar", "w:tblLook", "w:tblBorders"):
         for existing in tbl_pr.findall(qn(tag)):
@@ -197,7 +218,7 @@ def _set_table_properties(table) -> None:
     if grid is not None:
         table._tbl.remove(grid)
     grid = OxmlElement("w:tblGrid")
-    for width in COLUMN_WIDTHS:
+    for width in widths:
         col = OxmlElement("w:gridCol")
         col.set(qn("w:w"), str(width))
         grid.append(col)
@@ -225,10 +246,11 @@ def _add_heading(document: Document, text: str, page_break: bool = False):
 
 
 def _add_test_table(document: Document, items: Sequence[TestItem], settings: Settings) -> None:
+    widths = choose_column_widths(items, settings)
     table = document.add_table(rows=1, cols=4)
     table.style = document.styles["Normal Table"]
     table.autofit = False
-    _set_table_properties(table)
+    _set_table_properties(table, widths)
 
     header = table.rows[0]
     _set_row_height(header, settings.row_height_twips)
@@ -240,7 +262,7 @@ def _add_test_table(document: Document, items: Sequence[TestItem], settings: Set
             bold=True,
             top_border=False,
             bottom_border=True,
-            width=COLUMN_WIDTHS[index],
+            width=widths[index],
         )
 
     for item in items:
@@ -248,16 +270,16 @@ def _add_test_table(document: Document, items: Sequence[TestItem], settings: Set
         _set_row_height(row, settings.row_height_twips)
         _write_cell(
             row.cells[0], settings, text=str(item.number), bold=True,
-            align_right=True, width=COLUMN_WIDTHS[0],
+            align_right=True, width=widths[0],
         )
-        _write_cell(row.cells[1], settings, text=item.german, width=COLUMN_WIDTHS[1])
-        _write_cell(row.cells[2], settings, text=item.english, width=COLUMN_WIDTHS[2])
+        _write_cell(row.cells[1], settings, text=item.german, width=widths[1])
+        _write_cell(row.cells[2], settings, text=item.english, width=widths[2])
         _write_cell(
             row.cells[3],
             settings,
             text=item.sentence,
             highlight=item.sentence_form if settings.bold_target_word else "",
-            width=COLUMN_WIDTHS[3],
+            width=widths[3],
         )
 
 
@@ -291,7 +313,7 @@ def check_page_fit(items, settings: Settings | None = None) -> FitResult:
     settings = settings or Settings()
     return check_fits_page(
         _table_rows(items, settings),
-        column_widths=COLUMN_WIDTHS,
+        column_widths=choose_column_widths(items, settings),
         font_size_pt=settings.font_size_pt,
         row_height_twips=settings.row_height_twips,
         page_height=PAGE_HEIGHT,

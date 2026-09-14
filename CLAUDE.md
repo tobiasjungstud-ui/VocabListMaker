@@ -57,22 +57,36 @@ müssen:
 * für B1.2–B2.1 einen echten Zugewinn für den sprachlichen Ausdruck bieten,
 * mit keinem vorhandenen Wort kollidieren.
 
-Ergänzt wird in **zwei Arten**, getrennt steuerbar:
+Ergänzt wird in **drei Arten**, getrennt steuerbar:
 
-* `--zusatz-woerter N` — N zusätzliche **Einzelwörter** (`prejudice`, `refugee`)
-* `--zusatz-ausdruecke N` — N zusätzliche **Ausdrücke** (`stand up for`,
-  `make a difference`, `box office`). Ausdrücke sind oft der grössere Gewinn,
-  weil ihre Bedeutung nicht aus den Bestandteilen ableitbar ist.
+* `--zusatz-woerter N` — **Einzelwörter** (`prejudice`, `refugee`)
+* `--zusatz-ausdruecke N` — **Ausdrücke** (`stand up for`, `make a difference`,
+  `box office`). Ihre Bedeutung ist nicht aus den Bestandteilen ableitbar.
+* `--zusatz-chunks N` — **Chunks**: Satzrahmen mit offener Stelle, markiert
+  durch `…` (`What stood out to me was …`, `I'd recommend it to anyone who
+  enjoys …`). Sie bestehen aus Alltagswörtern, sind aber genau das, was beim
+  freien Sprechen und Schreiben fehlt.
+
+Für Chunks gelten Sonderregeln, die im Code bereits umgesetzt sind:
+
+* Sie werden **nicht nach Häufigkeit** beurteilt (sonst gälten sie als
+  „zu einfach“) und nicht über Wortfamilien mit anderen Einträgen verglichen.
+* Der Beispielsatz muss den Rahmen **eröffnen und fortsetzen**; Verstösse
+  melden `chunk_nicht_am_anfang` und `chunk_nicht_vervollstaendigt`.
+* Fett gesetzt wird der Rahmen ohne `…`.
+* Enthält eine Liste Chunks, wählt `choose_column_widths` automatisch ein
+  breiteres Spaltenraster (435/2850/2600/3635 statt 435/2511/2024/4550) —
+  mit dem Vorlagenraster liefen Chunk-Listen auf eine zweite Seite.
 
 Ohne Angabe wird nur die Lücke gefüllt, alles als Einzelwörter.
-`--export-auswahl` schreibt dann Platzhalterzeilen `ZU ERGÄNZEN (Wort)` bzw.
-`ZU ERGÄNZEN (Ausdruck)`; eine nicht ausgefüllte Platzhalterzeile lässt
+`--export-auswahl` schreibt Platzhalterzeilen `ZU ERGÄNZEN (Wort)`,
+`(Ausdruck)` bzw. `(Chunk)`; eine nicht ausgefüllte Zeile lässt
 `--aus-datei` mit einem Fehler abbrechen.
 
-**Höchstens 40 % der 60 Wörter dürfen ergänzt sein** (also maximal 24);
-`additions.plan_additions` setzt das durch. Reicht das nicht, werden zuerst
-Grenzfälle aus dem Hauptteil wieder zugelassen, bevor weiter ergänzt wird.
-Im Chat-Bericht werden Einzelwörter und Ausdrücke **getrennt ausgewiesen**.
+**Richtgrösse: höchstens 40 % ergänzt** (24 von 60). Wird sie überschritten,
+ist das **kein Abbruch, sondern eine Warnung** — im Chat, auf der
+Kommandozeile und im Qualitätsbericht (`viele_ergaenzungen`). Im Chat-Bericht
+werden Einzelwörter, Ausdrücke und Chunks **getrennt ausgewiesen**.
 
 ## Layout
 

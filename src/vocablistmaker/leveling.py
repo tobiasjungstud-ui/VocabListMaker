@@ -14,9 +14,11 @@ from pathlib import Path
 
 from .models import POS, Candidate
 from .normalize import (
+    chunk_body,
     cognate_similarity,
     first_gloss,
     headword,
+    is_chunk,
     is_multiword,
     pos_from_german,
 )
@@ -118,6 +120,10 @@ class LevelContext:
 
 def is_core_vocabulary(word: str) -> bool:
     """Steht das Wort im vorausgesetzten A1/A2-Grundwortschatz?"""
+    if is_chunk(word):
+        # Ein Satzrahmen besteht fast immer aus Allerweltswörtern; sein Wert
+        # liegt in der festen Fügung, nicht in den Einzelteilen.
+        return False
     hw = headword(word).lower()
     core = _core_vocabulary()
     if hw in core:
@@ -138,11 +144,27 @@ def score_candidate(c: Candidate, ctx: LevelContext | None = None) -> Candidate:
     ctx = ctx or LevelContext()
     from .normalize import stem as _stem
 
-    c.headword = headword(c.english)
-    c.stem = _stem(c.english)
-    c.pos = pos_from_german(c.german, c.english)
-    c.zipf = zipf(c.headword)
-    c.cefr = cefr_estimate(c.zipf)
+    chunk = is_chunk(c.english)
+    c.headword = c.english.strip() if chunk else headword(c.english)
+    c.stem = _stem(chunk_body(c.english)) if chunk else _stem(c.english)
+    c.pos = POS.PHRASE if chunk else pos_from_german(c.german, c.english)
+    c.zipf = zipf(chunk_body(c.english)) if chunk else zipf(c.headword)
+    c.cefr = "B1" if chunk else cefr_estimate(c.zipf)
+
+    if chunk:
+        # Chunks werden nicht über die Häufigkeit bewertet: Sie bestehen aus
+        # geläufigen Wörtern, sind als Fügung aber genau das, was beim freien
+        # Sprechen fehlt.
+        c.difficulty = 0.55
+        c.learning_value = 1.70
+        words = len(chunk_body(c.english).split())
+        if words < 3:
+            c.flag("chunk_zu_kurz", "Der Satzrahmen ist sehr knapp.")
+        if words > 12:
+            c.flag("chunk_zu_lang", "Der Satzrahmen ist zu lang für eine Tabellenzeile.")
+        if not first_gloss(c.german):
+            c.flag("unbrauchbar", "Kein deutscher Rahmen angegeben.")
+        return c
 
     hw_lower = c.headword.lower()
     cognate = cognate_similarity(c.english, c.german)

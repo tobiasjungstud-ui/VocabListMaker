@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .models import POS, Candidate
-from .normalize import german_glosses, headword, strip_accents
+from .normalize import chunk_body, german_glosses, headword, is_chunk, strip_accents
 
 MIN_WORDS = 5
 MAX_WORDS = 16
@@ -219,6 +219,11 @@ def find_form_in_sentence(sentence: str, target: str, declared: str = "") -> str
         if idx >= 0:
             return sentence[idx : idx + len(declared)]
 
+    if is_chunk(target):
+        body = chunk_body(target)
+        index = sentence.lower().find(body.lower())
+        return sentence[index : index + len(body)] if index >= 0 else ""
+
     hw = headword(target).strip()
     if not hw:
         return ""
@@ -265,12 +270,24 @@ def gives_away_answer(sentence: str, c: Candidate) -> bool:
     Zwei Fälle: eine Definition des Zielworts, oder eine deutsche Übersetzung
     bzw. ein Internationalismus, der direkt daneben steht.
     """
+    # Bei einem Chunk gehört der Rahmen selbst nicht zur Prüfung: Er endet
+    # oft auf "is" oder "was", und die Fortsetzung beginnt dann ganz natürlich
+    # mit einem Artikel - das ist keine Definition.
+    scan = sentence
+    if is_chunk(c.english):
+        body = chunk_body(c.english)
+        index = sentence.lower().find(body.lower())
+        if index >= 0:
+            scan = sentence[index + len(body) :]
+
     for pattern in _DEFINITION_PATTERNS:
-        m = pattern.search(sentence)
+        m = pattern.search(scan)
         if not m:
             continue
+        if is_chunk(c.english):
+            return True
         # Nur problematisch, wenn das Zielwort links davon steht.
-        before = sentence[: m.start()].lower()
+        before = scan[: m.start()].lower()
         if headword(c.english).lower().split()[0] in before:
             return True
 
@@ -313,6 +330,23 @@ def check_sentence(c: Candidate, sentence: str | None = None) -> list[SentenceIs
         issues.append(
             SentenceIssue("zielwort_fehlt", f"'{headword(c.english)}' kommt im Satz nicht vor.")
         )
+    elif is_chunk(c.english):
+        # Der Satz muss den Rahmen fortsetzen, nicht bloss wiederholen.
+        body_words = len(chunk_body(c.english).split())
+        if len(text.split()) < body_words + 2:
+            issues.append(
+                SentenceIssue(
+                    "chunk_nicht_vervollstaendigt",
+                    "Der Satz setzt den Satzrahmen nicht erkennbar fort.",
+                )
+            )
+        if not text.lower().startswith(chunk_body(c.english).lower()[:12]):
+            issues.append(
+                SentenceIssue(
+                    "chunk_nicht_am_anfang",
+                    "Der Satzrahmen sollte den Satz eröffnen.",
+                )
+            )
     if gives_away_answer(text, c):
         issues.append(SentenceIssue("loesung_verraten", "Der Satz verrät die Übersetzung."))
     if _GERMAN_MARKERS.search(text):

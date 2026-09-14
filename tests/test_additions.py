@@ -24,6 +24,9 @@ def test_cap_is_forty_percent() -> None:
         ("stand up for", "Ausdruck"),
         ("make a difference", "Ausdruck"),
         ("box office", "Ausdruck"),
+        ("What stood out to me was …", "Chunk"),
+        ("One of the strongest aspects of the film is …", "Chunk"),
+        ("It is worth watching because ...", "Chunk"),
         ("prejudice", "Wort"),
         ("refugee", "Wort"),
         ("gave (give)", "Wort"),
@@ -38,7 +41,20 @@ def test_gap_is_filled_when_no_split_is_given() -> None:
     assert plan.from_workbook == 41
     assert plan.extra_words == 19
     assert plan.extra_expressions == 0
+    assert plan.extra_chunks == 0
     assert plan.within_cap
+
+
+def test_chunks_are_a_third_category() -> None:
+    plan = plan_additions(42, 60, extra_words=8, extra_expressions=5, extra_chunks=5)
+    assert (plan.extra_words, plan.extra_expressions, plan.extra_chunks) == (8, 5, 5)
+    assert plan.extra_total == 18
+    assert plan.from_workbook == 42
+
+
+def test_chunks_alone_are_allowed() -> None:
+    plan = plan_additions(50, 60, extra_words=0, extra_expressions=0, extra_chunks=10)
+    assert plan.extra_chunks == 10
 
 
 def test_explicit_split_is_honoured() -> None:
@@ -60,9 +76,12 @@ def test_exactly_at_the_cap_is_accepted() -> None:
     assert plan.within_cap
 
 
-def test_too_many_additions_are_refused() -> None:
-    with pytest.raises(AdditionPlanError, match="höchstens 24"):
-        plan_additions(41, 60, extra_words=20, extra_expressions=10)
+def test_exceeding_the_cap_only_warns() -> None:
+    """Über 40 % ist erlaubt - aber es muss eine Warnung geben."""
+    plan = plan_additions(41, 60, extra_words=20, extra_expressions=10)
+    assert plan.extra_total == 30
+    assert not plan.within_cap
+    assert plan.warnings and "über der Richtgrösse" in plan.warnings[0]
 
 
 def test_too_few_additions_leave_a_gap() -> None:
@@ -70,17 +89,24 @@ def test_too_few_additions_leave_a_gap() -> None:
         plan_additions(41, 60, extra_words=5, extra_expressions=5)
 
 
-def test_gap_larger_than_the_cap_is_explained() -> None:
-    """Unit 8: 33 Wörter im Hauptteil reichen auch mit 40 % nicht."""
-    with pytest.raises(AdditionPlanError, match="Grenzfälle"):
-        plan_additions(33, 60)
+def test_gap_larger_than_the_cap_warns_but_proceeds() -> None:
+    """Unit 8: 33 Wörter im Hauptteil reichen nicht - Warnung, kein Abbruch."""
+    plan = plan_additions(33, 60)
+    assert plan.extra_total == 27
+    assert plan.warnings
+    assert "45%" in plan.warnings[0]
 
 
-def test_gap_larger_than_cap_with_explicit_split() -> None:
-    with pytest.raises(AdditionPlanError, match="Grenzfälle"):
-        plan_additions(33, 60, extra_words=15, extra_expressions=9)
+def test_warning_names_the_available_count() -> None:
+    plan = plan_additions(33, 60, extra_words=15, extra_expressions=9, extra_chunks=3)
+    assert plan.extra_total == 27
+    assert "nur 33 brauchbare" in plan.warnings[0]
+
+
+def test_staying_within_the_cap_produces_no_warning() -> None:
+    assert plan_additions(41, 60, extra_words=12, extra_expressions=7).warnings == ()
 
 
 def test_describe_mentions_both_kinds() -> None:
-    text = plan_additions(39, 60, extra_words=12, extra_expressions=9).describe()
-    assert "Einzelwörter" in text and "Ausdrücke" in text
+    text = plan_additions(39, 60, extra_words=12, extra_expressions=6, extra_chunks=3).describe()
+    assert "Einzelwörter" in text and "Ausdrücke" in text and "Chunks" in text

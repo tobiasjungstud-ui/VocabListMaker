@@ -19,7 +19,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .additions import AdditionPlan, classify
+from .additions import MAX_ADDITION_SHARE, AdditionPlan, classify
 from .config import Settings
 from .leveling import score_candidate
 from .models import Candidate, QualityReport, Severity, TestItem, TestPair
@@ -82,7 +82,11 @@ def export_selection(
         merged = [r for pairwise in zip(test1, test2, strict=False) for r in pairwise]
         merged += test1[len(test2):] + test2[len(test1):]
         merged = merged[:keep]
-        slots = ["Wort"] * plan.extra_words + ["Ausdruck"] * plan.extra_expressions
+        slots = (
+            ["Wort"] * plan.extra_words
+            + ["Ausdruck"] * plan.extra_expressions
+            + ["Chunk"] * plan.extra_chunks
+        )
         merged += [_placeholder(0, kind) for kind in slots]
         half = plan.target // 2
         test1, test2 = merged[:half], merged[half:]
@@ -109,7 +113,9 @@ def export_selection(
             "aus_hauptteil": plan.from_workbook,
             "ergaenzte_woerter": plan.extra_words,
             "ergaenzte_ausdruecke": plan.extra_expressions,
+            "ergaenzte_chunks": plan.extra_chunks,
             "anteil_ergaenzt": round(plan.share, 3),
+            "warnungen": list(plan.warnings),
         }
     target = Path(path)
     target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -213,6 +219,20 @@ def review_curated(pair: TestPair, settings: Settings | None = None) -> QualityR
     report.stats["ergaenzte_ausdruecke"] = sum(
         1 for i in added if classify(i.english) == "Ausdruck"
     )
+    report.stats["ergaenzte_chunks"] = sum(1 for i in added if classify(i.english) == "Chunk")
+
+    if added:
+        share = len(added) / len(pair.all_items)
+        report.stats["anteil_ergaenzt"] = round(share, 3)
+        if share > MAX_ADDITION_SHARE:
+            report.add(
+                "viele_ergaenzungen",
+                Severity.WARNING,
+                f"{len(added)} von {len(pair.all_items)} Einträgen sind ergänzt "
+                f"({share:.0%}) - über der Richtgrösse von "
+                f"{MAX_ADDITION_SHARE:.0%}. Der Hauptteil gab nicht mehr her.",
+                stage="zusammensetzung",
+            )
 
     from .docx_writer import check_page_fit
 

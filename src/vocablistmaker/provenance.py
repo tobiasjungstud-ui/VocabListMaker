@@ -71,16 +71,19 @@ class Provenance:
         if self.invented:
             words = [(e, g) for e, g in self.invented if classify(e) == "Wort"]
             phrases = [(e, g) for e, g in self.invented if classify(e) == "Ausdruck"]
+            chunks = [(e, g) for e, g in self.invented if classify(e) == "Chunk"]
             cap = max_additions(len(self.used)) if self.used else 0
-            state = "innerhalb" if self.invented_share <= MAX_ADDITION_SHARE else "ÜBER"
+            state = (
+                "innerhalb" if self.invented_share <= MAX_ADDITION_SHARE else "ÜBER"
+            )
             lines += [
                 f"### Selbst ergänzt, nicht aus der Excel-Datei "
                 f"({len(self.invented)} von {len(self.used)} = "
                 f"{self.invented_share:.0%}, {state} der Grenze von "
                 f"{MAX_ADDITION_SHARE:.0%} bzw. {cap} Einträgen)",
                 "",
-                f"Davon **{len(words)} Einzelwörter** und "
-                f"**{len(phrases)} Ausdrücke**.",
+                f"Davon **{len(words)} Einzelwörter**, "
+                f"**{len(phrases)} Ausdrücke** und **{len(chunks)} Chunks**.",
                 "",
                 "| Art | Englisch | Deutsch |",
                 "|---|---|---|",
@@ -89,6 +92,8 @@ class Provenance:
                 lines.append(f"| Wort | {english} | {german} |")
             for english, german in phrases:
                 lines.append(f"| Ausdruck | {english} | {german} |")
+            for english, german in chunks:
+                lines.append(f"| Chunk | {english} | {german} |")
         else:
             lines += [
                 "### Nicht aus der Excel-Datei (eigene Ergänzungen)",

@@ -24,6 +24,7 @@ Der Arbeitsablauf besteht aus vier Schritten:
 | Test 1 und Test 2 gleich schwer | Verteilung nach Wortart, anschliessend Tauschoptimierung auf gleiche mittlere Schwierigkeit, Streuung, Lernwert und Themenmischung. |
 | Beispielsätze, die nicht die Lösung verraten | Definitionsmuster („A villain **is a** bad person …“), deutsche Wörter im Satz und Paraphrasen werden erkannt und der Satz wird neu erzeugt. |
 | Layout der Vorlage | Seitenränder, Tabellenbreite (9520 dxa), Spaltenbreiten (435 / 2511 / 2024 / 4550), nur waagerechte Linien, Century Gothic, fette rechtsbündige Nummerierung und fett gesetztes Zielwort im Beispielsatz. |
+| Drei Arten von Ergänzungen | Einzelwörter, Ausdrücke und Chunks (Satzrahmen wie `What stood out to me was …`) lassen sich getrennt anfordern. Chunks werden nicht nach Häufigkeit bewertet und bekommen automatisch ein breiteres Spaltenraster. |
 | Jede Liste auf einer A4-Seite | Die Höhe wird vor der Ausgabe berechnet. Bei 11 pt liefen 30 Einträge mit zweizeiligen Beispielsätzen auf eine zweite Seite, deshalb sind 10 pt und Zeilenhöhe 340 voreingestellt (Auslastung rund 92 %). Test 2 beginnt immer auf einer neuen Seite. |
 | Qualitätskontrolle vor der Ausgabe | Mehrere Prüfrunden mit automatischer Reparatur und ein abschliessender Gesamtblick auf beide Listen. |
 
@@ -75,7 +76,7 @@ benötigt.
 # 1. Geprüfte Wortauswahl als Gerüst ausgeben - mit Platzhaltern für
 #    zusätzliche Einzelwörter und Ausdrücke
 vocablistmaker wordlist.xlsx "Unit 7" --no-llm --nur-hauptteil \
-    --zusatz-woerter 12 --zusatz-ausdruecke 9 \
+    --zusatz-woerter 12 --zusatz-ausdruecke 6 --zusatz-chunks 3 \
     --export-auswahl kuratiert/unit_7.json
 
 # 2. Die Felder "satz" im Chat mit Claude ausfüllen lassen
@@ -151,6 +152,7 @@ vocablistmaker wordlist.xlsx 4 --report bericht.md --json bericht.json --no-llm
 | `--nur-hauptteil` | nur den Block `Unit N`, ohne Culture/Songs/Project/Extra |
 | `--zusatz-woerter` | Anzahl zusätzlicher Einzelwörter |
 | `--zusatz-ausdruecke` | Anzahl zusätzlicher Ausdrücke (`stand up for`) |
+| `--zusatz-chunks` | Anzahl zusätzlicher Satzrahmen (`What stood out to me was …`) |
 | `-v` | Fortschritt anzeigen |
 
 Der Rückgabewert ist `0`, wenn keine Fehler gefunden wurden, sonst `1` — damit

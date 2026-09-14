@@ -8,6 +8,10 @@ bringen:
 * **Ausdrücke** (``stand up for``, ``make a difference``) sind für Lernende
   oft wertvoller: Ihre Bedeutung lässt sich nicht aus den Bestandteilen
   ableiten, und sie verbessern den sprachlichen Ausdruck unmittelbar.
+* **Chunks** (``What stood out to me was …``) sind Satzrahmen mit offener
+  Stelle. Sie bestehen aus lauter Alltagswörtern, sind aber genau das, was
+  Lernenden beim freien Sprechen und Schreiben fehlt. Ihr Beispielsatz
+  *vervollständigt* den Rahmen, statt ihn nur zu enthalten.
 """
 
 from __future__ import annotations
@@ -30,10 +34,12 @@ class AdditionPlan:
     from_workbook: int
     extra_words: int
     extra_expressions: int
+    extra_chunks: int = 0
+    warnings: tuple[str, ...] = ()
 
     @property
     def extra_total(self) -> int:
-        return self.extra_words + self.extra_expressions
+        return self.extra_words + self.extra_expressions + self.extra_chunks
 
     @property
     def share(self) -> float:
@@ -45,9 +51,10 @@ class AdditionPlan:
 
     def describe(self) -> str:
         return (
-            f"{self.target} Wörter: {self.from_workbook} aus dem Hauptteil, "
+            f"{self.target} Einträge: {self.from_workbook} aus dem Hauptteil, "
             f"{self.extra_words} ergänzte Einzelwörter, "
-            f"{self.extra_expressions} ergänzte Ausdrücke "
+            f"{self.extra_expressions} ergänzte Ausdrücke, "
+            f"{self.extra_chunks} ergänzte Chunks "
             f"({self.share:.0%} ergänzt)"
         )
 
@@ -62,14 +69,17 @@ def plan_additions(
     target: int,
     extra_words: int | None = None,
     extra_expressions: int | None = None,
+    extra_chunks: int | None = None,
 ) -> AdditionPlan:
     """Bestimmt die Zusammensetzung einer Liste.
 
     ``available`` ist die Zahl geprüfter Wörter aus dem Hauptteil.
-    Sind ``extra_words`` und ``extra_expressions`` beide ``None``, wird nur
-    die Lücke gefüllt und nicht nach Art getrennt (alles gilt als Einzelwort).
-    Ist mindestens einer der Werte gesetzt, bestimmen die Vorgaben die
-    Aufteilung — notfalls rücken dafür weniger Wörter aus dem Hauptteil nach.
+    Sind alle drei Mengenangaben ``None``, wird nur die Lücke gefüllt und
+    nicht nach Art getrennt (alles gilt als Einzelwort). Ist mindestens eine
+    gesetzt, bestimmen die Vorgaben die Aufteilung — notfalls rücken dafür
+    weniger Wörter aus dem Hauptteil nach.
+
+    Ein Anteil über 40 % ist zulässig, wird aber als Warnung vermerkt.
     """
     if target <= 0:
         raise AdditionPlanError("Die Liste muss mindestens einen Eintrag haben.")
@@ -77,50 +87,46 @@ def plan_additions(
     deficit = max(0, target - available)
     cap = max_additions(target)
 
-    if extra_words is None and extra_expressions is None:
-        if deficit > cap:
-            raise AdditionPlanError(
-                f"Der Hauptteil liefert nur {available} von {target} Wörtern. "
-                f"Es müssten {deficit} ergänzt werden, erlaubt sind höchstens "
-                f"{cap} ({MAX_ADDITION_SHARE:.0%}). Bitte Grenzfälle aus dem "
-                "Hauptteil zulassen oder die Testgrösse verringern."
-            )
-        return AdditionPlan(target, target - deficit, deficit, 0)
+    def cap_warning(total: int) -> tuple[str, ...]:
+        if total <= cap:
+            return ()
+        return (
+            f"{total} von {target} Einträgen sind ergänzt "
+            f"({total / target:.0%}). Das liegt über der Richtgrösse von "
+            f"{MAX_ADDITION_SHARE:.0%} ({cap} Einträge). Der Hauptteil gibt "
+            f"nur {available} brauchbare Wörter her.",
+        )
+
+    if extra_words is None and extra_expressions is None and extra_chunks is None:
+        return AdditionPlan(
+            target, target - deficit, deficit, 0, 0, cap_warning(deficit)
+        )
 
     words = max(0, extra_words or 0)
     expressions = max(0, extra_expressions or 0)
-    total = words + expressions
+    chunks = max(0, extra_chunks or 0)
+    total = words + expressions + chunks
 
-    if total > cap:
-        raise AdditionPlanError(
-            f"{total} Ergänzungen sind zu viele: Bei {target} Einträgen sind "
-            f"höchstens {cap} erlaubt ({MAX_ADDITION_SHARE:.0%})."
-        )
-    if total < deficit:
-        if deficit > cap:
-            raise AdditionPlanError(
-                f"Der Hauptteil liefert nur {available} von {target} Wörtern. "
-                f"Die Lücke von {deficit} lässt sich nicht durch Ergänzungen "
-                f"schliessen, weil höchstens {cap} erlaubt sind "
-                f"({MAX_ADDITION_SHARE:.0%}). Es müssen mindestens "
-                f"{target - cap - available} Grenzfälle aus dem Hauptteil "
-                "wieder zugelassen werden."
-            )
-        raise AdditionPlanError(
-            f"Der Hauptteil liefert nur {available} von {target} Wörtern. "
-            f"Es fehlen {deficit}, angefordert sind aber nur {total} "
-            "Ergänzungen. Bitte die Anzahl erhöhen."
-        )
     if total > target:
         raise AdditionPlanError(
             f"{total} Ergänzungen passen nicht in eine Liste mit {target} Einträgen."
         )
+    if total < deficit:
+        raise AdditionPlanError(
+            f"Der Hauptteil liefert nur {available} von {target} Einträgen. "
+            f"Es fehlen {deficit}, angefordert sind aber nur {total} "
+            "Ergänzungen. Bitte die Anzahl erhöhen."
+        )
 
-    return AdditionPlan(target, target - total, words, expressions)
+    return AdditionPlan(
+        target, target - total, words, expressions, chunks, cap_warning(total)
+    )
 
 
 def classify(english: str) -> str:
-    """``"Ausdruck"`` bei mehreren Wörtern, sonst ``"Wort"``."""
-    from .normalize import headword
+    """``"Chunk"``, ``"Ausdruck"`` oder ``"Wort"``."""
+    from .normalize import headword, is_chunk
 
+    if is_chunk(english):
+        return "Chunk"
     return "Ausdruck" if len(headword(english).split()) > 1 else "Wort"

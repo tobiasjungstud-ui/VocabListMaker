@@ -62,6 +62,13 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--zusatz-chunks", type=int, default=None, metavar="N",
+        help=(
+            "Wie viele zusätzliche Chunks ergänzt werden sollen - Satzrahmen "
+            "mit offener Stelle wie 'What stood out to me was …'."
+        ),
+    )
+    parser.add_argument(
         "--nur-hauptteil", action="store_true",
         help=(
             "Nur den Hauptteil einer Unit verwenden, ohne Culture, Songs, "
@@ -101,6 +108,7 @@ def main(argv: list[str] | None = None) -> int:
         settings.core_sections_only = True
     settings.extra_words = getattr(args, "zusatz_woerter", None)
     settings.extra_expressions = getattr(args, "zusatz_ausdruecke", None)
+    settings.extra_chunks = getattr(args, "zusatz_chunks", None)
     if args.export_auswahl:
         # Beim Export interessieren nur die Wörter - Sätze kommen später.
         settings.allow_template_sentences = True
@@ -185,6 +193,7 @@ def main(argv: list[str] | None = None) -> int:
             plan = plan_additions(
                 available, settings.target_total,
                 settings.extra_words, settings.extra_expressions,
+                settings.extra_chunks,
             )
         except AdditionPlanError as exc:
             print(f"Fehler: {exc}", file=sys.stderr)
@@ -193,11 +202,14 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Wortauswahl geschrieben: {args.export_auswahl}")
         print(f"  Hauptteil liefert {available} geprüfte Wörter.")
         print(f"  {plan.describe()}")
+        for warning in plan.warnings:
+            print(f"  WARNUNG: {warning}", file=sys.stderr)
         if plan.extra_total:
             print(
                 f"  {plan.extra_total} Platzhalter sind auszufüllen: "
                 f"{plan.extra_words}x 'ZU ERGÄNZEN (Wort)', "
-                f"{plan.extra_expressions}x 'ZU ERGÄNZEN (Ausdruck)'."
+                f"{plan.extra_expressions}x 'ZU ERGÄNZEN (Ausdruck)', "
+                f"{plan.extra_chunks}x 'ZU ERGÄNZEN (Chunk)'."
             )
         print(
             "Jetzt die Felder ausfüllen und danach mit "
